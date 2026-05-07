@@ -1,0 +1,2690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rhythm — Your Cycle. Your Brain. Your Interventions.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --terracotta: #C4724A;
+    --terracotta-light: #E8C4AE;
+    --terracotta-pale: #F5EDE6;
+    --sage: #7A9E7E;
+    --sage-light: #C2D7C4;
+    --sage-pale: #EEF4EF;
+    --cream: #FAF7F2;
+    --charcoal: #2C2C2C;
+    --charcoal-mid: #5A5A5A;
+    --charcoal-light: #8A8A8A;
+    --white: #FFFFFF;
+    --border: rgba(44,44,44,0.12);
+    --border-med: rgba(44,44,44,0.2);
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --radius: 4px;
+    --radius-lg: 12px;
+    --section-pad: 100px 0;
+    --container: 1140px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--charcoal);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  @media (max-width: 768px) {
+    .container { padding: 0 20px; }
+    :root { --section-pad: 64px 0; }
+  }
+
+  /* ─── NAVIGATION ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(250,247,242,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.3s ease;
+  }
+
+  nav.scrolled {
+    box-shadow: 0 2px 24px rgba(44,44,44,0.08);
+  }
+
+  .nav-inner {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 40px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .nav-logo span {
+    color: var(--terracotta);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--charcoal-mid);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+    text-transform: uppercase;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: var(--terracotta);
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--charcoal);
+    transition: all 0.3s ease;
+  }
+
+  .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4.5px, -4.5px); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 64px; left: 0; right: 0;
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 40px;
+    z-index: 99;
+  }
+
+  .mobile-menu.open { display: block; }
+
+  .mobile-menu a {
+    display: block;
+    padding: 12px 0;
+    font-size: 1.1rem;
+    color: var(--charcoal);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .nav-inner { padding: 0 20px; }
+  }
+
+  /* ─── PAGE SECTIONS ─── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ─── TYPOGRAPHY ─── */
+  .display-heading {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--charcoal);
+  }
+
+  h1.display-heading { font-size: clamp(3rem, 6vw, 5.5rem); }
+  h2.display-heading { font-size: clamp(2rem, 4vw, 3.2rem); }
+  h3.display-heading { font-size: clamp(1.5rem, 2.5vw, 2.2rem); }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 16px;
+  }
+
+  .lead {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: var(--charcoal-mid);
+  }
+
+  .body-text {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--charcoal-mid);
+  }
+
+  /* ─── BUTTONS ─── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.25s ease;
+  }
+
+  .btn-primary {
+    background: var(--terracotta);
+    color: var(--white);
+  }
+
+  .btn-primary:hover {
+    background: #b36238;
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--charcoal);
+    border: 1.5px solid var(--charcoal);
+  }
+
+  .btn-outline:hover {
+    background: var(--charcoal);
+    color: var(--white);
+  }
+
+  .btn-sage {
+    background: var(--sage);
+    color: var(--white);
+  }
+
+  .btn-sage:hover {
+    background: #6a8e6e;
+    transform: translateY(-1px);
+  }
+
+  .btn-text {
+    background: transparent;
+    color: var(--terracotta);
+    padding: 8px 0;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-text::after { content: '→'; }
+  .btn-text:hover { color: #b36238; }
+
+  /* ─── SCROLL ANIMATIONS ─── */
+  /* Only animate when JS confirms it's running — prevents blank page if JS slow */
+  .js-ready .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .js-ready .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fade-in-delay-1 { transition-delay: 0.1s; }
+  .fade-in-delay-2 { transition-delay: 0.2s; }
+  .fade-in-delay-3 { transition-delay: 0.3s; }
+
+  /* ─── DIVIDERS ─── */
+  .divider {
+    width: 48px;
+    height: 1.5px;
+    background: var(--terracotta);
+    margin: 24px 0;
+  }
+
+  /* ─── ══════════════════════════════════════════ ─── */
+  /* ─── PAGE 1: HOME ─── */
+  /* ─── ══════════════════════════════════════════ ─── */
+
+  /* Hero */
+  .hero {
+    padding: 160px 0 120px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    top: 0; right: 0;
+    width: 50%;
+    height: 100%;
+    opacity: 0.06;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    max-width: 760px;
+  }
+
+  .hero-tagline {
+    font-family: var(--font-display);
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--terracotta);
+    letter-spacing: 0.06em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    font-weight: 300;
+    line-height: 1.0;
+    color: var(--charcoal);
+    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+
+  .hero-value-prop {
+    max-width: 520px;
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: var(--charcoal-mid);
+    margin-bottom: 48px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .hero-wave {
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 520px;
+    opacity: 0.08;
+  }
+
+  @media (max-width: 768px) {
+    .hero { padding: 110px 0 80px; }
+    .hero-wave { display: none; }
+  }
+
+  /* Features strip */
+  .features-strip {
+    padding: var(--section-pad);
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .feature-item {
+    padding: 48px 40px;
+    border-right: 1px solid var(--border);
+  }
+
+  .feature-item:last-child { border-right: none; }
+
+  .feature-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 20px;
+  }
+
+  .feature-item h3 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: var(--charcoal);
+  }
+
+  .feature-item p {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--charcoal-mid);
+  }
+
+  @media (max-width: 768px) {
+    .features-grid { grid-template-columns: 1fr; }
+    .feature-item { border-right: none; border-bottom: 1px solid var(--border); padding: 32px 0; }
+    .feature-item:last-child { border-bottom: none; }
+  }
+
+  /* Science Teaser */
+  .science-teaser {
+    padding: var(--section-pad);
+  }
+
+  .science-teaser-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-bottom: 64px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .stat-card {
+    background: var(--white);
+    padding: 40px 32px;
+    border: 1px solid var(--border);
+  }
+
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: var(--terracotta);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .stat-text {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--charcoal-mid);
+  }
+
+  .stat-source {
+    font-size: 0.75rem;
+    color: var(--charcoal-light);
+    margin-top: 12px;
+    font-style: italic;
+  }
+
+  @media (max-width: 900px) {
+    .science-teaser-header { grid-template-columns: 1fr; gap: 40px; }
+    .stats-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Founder */
+  .founder-section {
+    padding: var(--section-pad);
+    background: var(--white);
+    border-top: 1px solid var(--border);
+  }
+
+  .founder-inner {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .founder-photo-placeholder {
+    aspect-ratio: 3/4;
+    background: var(--terracotta-pale);
+    border: 1px solid var(--terracotta-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--terracotta);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    gap: 12px;
+  }
+
+  .founder-photo-placeholder svg {
+    opacity: 0.4;
+  }
+
+  .founder-content .placeholder-bio {
+    background: var(--sage-pale);
+    border-left: 3px solid var(--sage);
+    padding: 20px 24px;
+    font-size: 0.875rem;
+    color: var(--charcoal-mid);
+    font-style: italic;
+    margin: 24px 0;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .founder-inner { grid-template-columns: 1fr; }
+    .founder-photo-placeholder { max-width: 280px; aspect-ratio: 1/1; }
+  }
+
+  /* Footer */
+  footer {
+    background: var(--charcoal);
+    color: var(--white);
+    padding: 60px 0 40px;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .footer-tagline {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.5);
+    font-style: italic;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-links a {
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--terracotta-light); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-bottom p {
+    font-size: 0.8125rem;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .built-on-evidence {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--terracotta-light);
+    opacity: 0.7;
+  }
+
+  /* ─── ══════════════════════════════════════════ ─── */
+  /* ─── PAGE 2: THE SCIENCE (BLOG) ─── */
+  /* ─── ══════════════════════════════════════════ ─── */
+
+  .blog-hero {
+    padding: 140px 0 80px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .blog-index { padding: 80px 0; }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+  }
+
+  .article-card {
+    background: var(--white);
+    padding: 40px;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .article-card:hover { background: var(--terracotta-pale); }
+
+  .article-tag {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage);
+  }
+
+  .article-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    line-height: 1.25;
+  }
+
+  .article-teaser {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--charcoal-mid);
+    flex: 1;
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .read-time {
+    font-size: 0.8rem;
+    color: var(--charcoal-light);
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 768px) {
+    .blog-grid { grid-template-columns: 1fr; }
+    .article-card { padding: 28px 20px; }
+  }
+
+  /* Article page */
+  .article-page { display: none; padding: 140px 0 100px; }
+  .article-page.active { display: block; }
+
+  .article-back {
+    font-size: 0.8125rem;
+    color: var(--terracotta);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 48px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .article-back:hover { color: #b36238; }
+
+  .article-header {
+    max-width: 720px;
+    margin-bottom: 56px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .article-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 24px;
+  }
+
+  .article-byline {
+    font-size: 0.875rem;
+    color: var(--charcoal-light);
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .article-byline span { display: flex; align-items: center; gap: 6px; }
+
+  .article-body {
+    max-width: 720px;
+  }
+
+  .article-body h2 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin: 48px 0 16px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .article-body h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+
+  .article-body p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--charcoal-mid);
+    margin-bottom: 16px;
+  }
+
+  .article-body ul {
+    margin: 12px 0 20px 20px;
+  }
+
+  .article-body ul li {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--charcoal-mid);
+    margin-bottom: 8px;
+  }
+
+  .content-note {
+    background: var(--terracotta-pale);
+    border-left: 3px solid var(--terracotta);
+    padding: 16px 20px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: var(--charcoal-mid);
+    margin: 20px 0;
+    line-height: 1.6;
+  }
+
+  .ref-placeholder {
+    display: inline-block;
+    background: var(--sage-pale);
+    border: 1px solid var(--sage-light);
+    color: var(--sage);
+    font-size: 0.7rem;
+    padding: 1px 6px;
+    border-radius: 2px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    margin: 0 2px;
+  }
+
+  .article-citations {
+    margin-top: 60px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .article-citations h3 {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--charcoal-light);
+    margin-bottom: 16px;
+  }
+
+  .citation-item {
+    font-size: 0.8125rem;
+    color: var(--charcoal-light);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-style: italic;
+  }
+
+  /* ─── ══════════════════════════════════════════ ─── */
+  /* ─── PAGE 3: THE APP ─── */
+  /* ─── ══════════════════════════════════════════ ─── */
+
+  .app-hero {
+    padding: 140px 0 80px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .app-overview {
+    padding: var(--section-pad);
+    background: var(--white);
+  }
+
+  .app-overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .layer-card {
+    padding: 32px;
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+    background: var(--cream);
+  }
+
+  .layer-card h4 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+  }
+
+  .layer-number {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .demo-embed {
+    padding: var(--section-pad);
+    border-top: 1px solid var(--border);
+  }
+
+  .demo-placeholder {
+    background: var(--charcoal);
+    color: var(--white);
+    padding: 80px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .demo-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(255,255,255,0.02) 10px,
+      rgba(255,255,255,0.02) 20px
+    );
+  }
+
+  .demo-placeholder-inner { position: relative; }
+
+  .demo-placeholder h3 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .demo-placeholder p {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.9375rem;
+    margin-bottom: 32px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .demo-embed-code {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 16px 24px;
+    font-family: monospace;
+    font-size: 0.8125rem;
+    color: var(--terracotta-light);
+    text-align: left;
+    max-width: 480px;
+    margin: 0 auto;
+    overflow-x: auto;
+  }
+
+  .why-matters {
+    padding: var(--section-pad);
+    background: var(--terracotta-pale);
+  }
+
+  .why-matters-inner {
+    max-width: 760px;
+  }
+
+  .intervention-cards {
+    padding: var(--section-pad);
+    background: var(--white);
+    border-top: 1px solid var(--border);
+  }
+
+  .intervention-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 48px;
+  }
+
+  .intervention-card {
+    background: var(--cream);
+    padding: 32px 24px;
+    border: 1px solid var(--border);
+  }
+
+  .intervention-icon {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    display: block;
+    width: 40px;
+    height: 40px;
+  }
+
+  .intervention-card h4 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+  }
+
+  .intervention-card p {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--charcoal-mid);
+    margin-bottom: 16px;
+  }
+
+  .evidence-tag {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sage);
+    background: var(--sage-pale);
+    padding: 4px 10px;
+    border: 1px solid var(--sage-light);
+    display: inline-block;
+  }
+
+  @media (max-width: 900px) {
+    .app-overview-grid { grid-template-columns: 1fr; gap: 48px; }
+    .intervention-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 580px) {
+    .intervention-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ─── ══════════════════════════════════════════ ─── */
+  /* ─── PAGE 4: ABOUT ─── */
+  /* ─── ══════════════════════════════════════════ ─── */
+
+  .about-hero {
+    padding: 140px 0 80px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-founder {
+    padding: var(--section-pad);
+    background: var(--white);
+  }
+
+  .about-founder-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-founder-photo {
+    aspect-ratio: 1/1;
+    background: var(--terracotta-pale);
+    border: 1px solid var(--terracotta-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--terracotta);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .research-section {
+    padding: var(--section-pad);
+    border-top: 1px solid var(--border);
+  }
+
+  .research-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .mission-statement {
+    padding: var(--section-pad);
+    background: var(--charcoal);
+    color: var(--white);
+  }
+
+  .mission-statement h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 300;
+    line-height: 1.3;
+    color: var(--white);
+    margin-bottom: 32px;
+  }
+
+  .mission-statement p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.65);
+  }
+
+  .mission-statement .divider { background: var(--terracotta-light); }
+
+  .for-employers {
+    padding: var(--section-pad);
+    background: var(--sage-pale);
+    border-top: 1px solid var(--sage-light);
+  }
+
+  .employer-card {
+    background: var(--white);
+    padding: 48px;
+    border: 1px solid var(--border);
+    max-width: 720px;
+  }
+
+  .employer-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 20px;
+  }
+
+  .employer-card p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--charcoal-mid);
+    margin-bottom: 16px;
+  }
+
+  .capability-list {
+    list-style: none;
+    margin: 24px 0;
+  }
+
+  .capability-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9375rem;
+    color: var(--charcoal-mid);
+    display: flex;
+    align-items: start;
+    gap: 12px;
+  }
+
+  .capability-list li::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 900px) {
+    .about-founder-grid { grid-template-columns: 1fr; }
+    .research-inner { grid-template-columns: 1fr; gap: 48px; }
+    .employer-card { padding: 32px 24px; }
+  }
+
+  /* ─── PLACEHOLDER STYLES ─── */
+  [data-placeholder] {
+    position: relative;
+  }
+
+  .placeholder-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    background: var(--terracotta-pale);
+    border: 1px dashed var(--terracotta-light);
+    padding: 4px 10px;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
+  .placeholder-block {
+    background: var(--sage-pale);
+    border: 1.5px dashed var(--sage-light);
+    padding: 20px 24px;
+    color: var(--charcoal-mid);
+    font-style: italic;
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+
+  /* ─── WAVE MOTIF SVG ─── */
+  .wave-divider {
+    overflow: hidden;
+    line-height: 0;
+    margin: -1px 0;
+  }
+
+  /* ─── PHASE BADGE ─── */
+  .phase-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--terracotta-pale);
+    border: 1px solid var(--terracotta-light);
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAVIGATION ─── -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a class="nav-logo" onclick="showPage('home')">Rhythm<span>.</span></a>
+    <ul class="nav-links">
+      <li><a onclick="showPage('home')" data-page="home" class="active">Home</a></li>
+      <li><a onclick="showPage('science')" data-page="science">The Science</a></li>
+      <li><a onclick="showPage('app')" data-page="app">The App</a></li>
+      <li><a onclick="showPage('about')" data-page="about">About</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" onclick="toggleMobile()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a onclick="showPage('home');closeMobile()">Home</a>
+  <a onclick="showPage('science');closeMobile()">The Science</a>
+  <a onclick="showPage('app');closeMobile()">The App</a>
+  <a onclick="showPage('about');closeMobile()">About</a>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PAGE 1: HOME -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <p class="hero-tagline fade-in">Evidence-based neuropsychological wellbeing</p>
+        <h1 class="fade-in fade-in-delay-1">Your cycle.<br><em>Your brain.</em><br>Your interventions.</h1>
+        <p class="hero-value-prop fade-in fade-in-delay-2">
+          Your brain changes across your menstrual cycle — but who you are matters more than what phase you're in. Rhythm combines cycle-phase science with your daily mood data and personal psychological profile to deliver tailored, evidence-based interventions: breathwork, CBT, movement, meditation, sleep hygiene, and more.
+        </p>
+        <div class="hero-ctas fade-in fade-in-delay-3">
+          <button class="btn btn-primary" onclick="showPage('science')">Explore the Science</button>
+          <button class="btn btn-outline" onclick="showPage('app')">Try the Demo</button>
+        </div>
+      </div>
+
+      <!-- Abstract wave motif -->
+      <svg class="hero-wave" viewBox="0 0 520 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <ellipse cx="260" cy="200" rx="200" ry="200" stroke="#C4724A" stroke-width="1.5" fill="none"/>
+        <ellipse cx="260" cy="200" rx="155" ry="155" stroke="#C4724A" stroke-width="1" fill="none" stroke-dasharray="4 8"/>
+        <ellipse cx="260" cy="200" rx="110" ry="110" stroke="#7A9E7E" stroke-width="1.5" fill="none"/>
+        <ellipse cx="260" cy="200" rx="65" ry="65" stroke="#7A9E7E" stroke-width="1" fill="none" stroke-dasharray="4 8"/>
+        <path d="M60 200 Q130 120 200 200 Q270 280 340 200 Q410 120 460 200" stroke="#C4724A" stroke-width="2" fill="none"/>
+        <path d="M60 230 Q130 150 200 230 Q270 310 340 230 Q410 150 460 230" stroke="#7A9E7E" stroke-width="1.5" fill="none" opacity="0.6"/>
+        <circle cx="200" cy="200" r="4" fill="#C4724A" opacity="0.6"/>
+        <circle cx="320" cy="200" r="4" fill="#7A9E7E" opacity="0.6"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Feature Highlights -->
+  <section class="features-strip">
+    <div class="container">
+      <div class="features-grid">
+
+        <div class="feature-item fade-in">
+          <svg class="feature-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="18" stroke="#C4724A" stroke-width="1.5" fill="none"/>
+            <circle cx="20" cy="20" r="10" stroke="#C4724A" stroke-width="1" fill="none" stroke-dasharray="3 5"/>
+            <circle cx="20" cy="6" r="3" fill="#C4724A" opacity="0.7"/>
+            <circle cx="34" cy="20" r="2.5" fill="#C4724A" opacity="0.4"/>
+            <circle cx="20" cy="34" r="2" fill="#C4724A" opacity="0.25"/>
+          </svg>
+          <h3>Cycle-phase personalization</h3>
+          <p>Rhythm understands the four phases of your menstrual cycle and their distinct neuropsychological signatures — without reducing you to them. Phase is a context, not a cage.</p>
+        </div>
+
+        <div class="feature-item fade-in fade-in-delay-1">
+          <svg class="feature-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 28 Q10 14 16 20 Q22 26 28 10 Q34 4 38 16" stroke="#7A9E7E" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <circle cx="16" cy="20" r="2.5" fill="#7A9E7E" opacity="0.7"/>
+            <circle cx="28" cy="10" r="2.5" fill="#7A9E7E" opacity="0.4"/>
+          </svg>
+          <h3>Daily mood-adaptive interventions</h3>
+          <p>Each day, your mood and energy check-in updates your intervention recommendation in real time. What you need on a difficult Tuesday is not what you need mid-cycle on a good week.</p>
+        </div>
+
+        <div class="feature-item fade-in fade-in-delay-2">
+          <svg class="feature-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="8" width="32" height="24" rx="2" stroke="#C4724A" stroke-width="1.5" fill="none"/>
+            <line x1="4" y1="16" x2="36" y2="16" stroke="#C4724A" stroke-width="1" opacity="0.4"/>
+            <line x1="12" y1="22" x2="28" y2="22" stroke="#7A9E7E" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="12" y1="27" x2="22" y2="27" stroke="#7A9E7E" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+            <circle cx="8" cy="12" r="1.5" fill="#C4724A" opacity="0.6"/>
+          </svg>
+          <h3>Evidence-backed explanations</h3>
+          <p>Every recommendation is linked to peer-reviewed research. Not pseudoscience. Not wellness marketing. Rhythm is built on the neuroscience of individual variation — because the evidence demands it.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Science Teaser -->
+  <section class="science-teaser">
+    <div class="container">
+      <div class="science-teaser-header fade-in">
+        <div>
+          <p class="section-label">The science behind rhythm</p>
+          <h2 class="display-heading">Your brain isn't stable.<br>It's <em>responsive.</em></h2>
+        </div>
+        <div>
+          <p class="lead">Decades of research confirm that estrogen, progesterone, and other neuroactive steroids modulate cognition, mood, effort perception, and neural connectivity — and that individual variation in these effects is substantial. Rhythm puts that evidence to work.</p>
+          <div class="divider"></div>
+          <button class="btn-text" onclick="showPage('science')">Read the research</button>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card fade-in">
+          <div class="stat-number">~27%</div>
+          <p class="stat-text">Variation in verbal memory performance observed across menstrual cycle phases in controlled studies — an effect comparable in magnitude to mild sleep deprivation.</p>
+          <p class="stat-source">[REF — Sherwin, 2003; Hampson & Kimura, 1988]</p>
+        </div>
+        <div class="stat-card fade-in fade-in-delay-1">
+          <div class="stat-number">3×</div>
+          <p class="stat-text">Women with PMS/PMDD are approximately three times more likely to experience clinically significant anxiety, yet fewer than 1 in 4 are offered behaviorally-based interventions.</p>
+          <p class="stat-source">[REF — Yonkers et al., 2008; ACOG data]</p>
+        </div>
+        <div class="stat-card fade-in fade-in-delay-2">
+          <div class="stat-number">~70%</div>
+          <p class="stat-text">Of women report subjective cognitive or mood changes across their cycle — yet existing apps offer cycle tracking, not neuropsychological intervention tools.</p>
+          <p class="stat-source">[REF — Woods et al., 2010; EMA data review]</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Perimenopause Section -->
+  <section style="padding: var(--section-pad); background: var(--charcoal); color: var(--white);">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;" class="peri-grid">
+
+        <div class="fade-in">
+          <p class="section-label" style="color: var(--terracotta-light);">Perimenopause</p>
+          <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; line-height: 1.2; color: var(--white); margin-bottom: 24px;">When your cycle becomes <em style="color: var(--terracotta-light);">less predictable</em> — your brain doesn't have to be.</h2>
+          <div class="divider" style="background: var(--terracotta-light);"></div>
+          <p style="font-size: 1rem; line-height: 1.85; color: rgba(255,255,255,0.65); margin-bottom: 20px;">Perimenopause — the transition that begins, on average, four to six years before the final menstrual period — is not a single event. It is a prolonged period of hormonal variability: estrogen levels that fluctuate unpredictably, cycles that lengthen and shorten, ovulation that becomes irregular. For many women, it starts in their early-to-mid 40s. For some, earlier.</p>
+          <p style="font-size: 1rem; line-height: 1.85; color: rgba(255,255,255,0.65); margin-bottom: 28px;">The neuropsychological effects — disrupted sleep, altered mood regulation, cognitive changes, shifts in anxiety threshold — are real, measurable, and often unsupported by existing health tools. Rhythm is built to support women across the full reproductive lifespan, including this transition.</p>
+          <button class="btn" style="background: var(--terracotta); color: var(--white); font-size: 0.8rem;" onclick="showArticle(4); showPage('science');">Read: Perimenopause &amp; Cognitive Change →</button>
+        </div>
+
+        <div class="fade-in fade-in-delay-1">
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+
+            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 28px 32px;">
+              <p style="font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terracotta-light); margin-bottom: 12px;">What changes</p>
+              <p style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 400; color: var(--white); line-height: 1.4; margin-bottom: 10px;">Cycle length and regularity</p>
+              <p style="font-size: 0.875rem; line-height: 1.65; color: rgba(255,255,255,0.55);">Cycles may shorten, lengthen, or become anovulatory — sometimes within the same few months. The predictable four-phase rhythm becomes a probability distribution. Rhythm adjusts its phase interpretation model accordingly, using your reported cycle data rather than a fixed-length assumption.</p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 28px 32px;">
+              <p style="font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terracotta-light); margin-bottom: 12px;">What this means neurologically</p>
+              <p style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 400; color: var(--white); line-height: 1.4; margin-bottom: 10px;">Greater hormonal variability, more neuropsychological noise</p>
+              <p style="font-size: 0.875rem; line-height: 1.65; color: rgba(255,255,255,0.55);">Erratic estrogen fluctuations — rather than steady decline — are associated with mood instability, sleep disruption, and cognitive symptoms. The brain regions most sensitive to estrogen (hippocampus, prefrontal cortex, amygdala) are the same regions underlying memory, executive function, and emotion regulation.</p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 28px 32px;">
+              <p style="font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terracotta-light); margin-bottom: 12px;">What Rhythm does differently</p>
+              <p style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 400; color: var(--white); line-height: 1.4; margin-bottom: 10px;">Irregular cycle mode + perimenopausal intervention stack</p>
+              <p style="font-size: 0.875rem; line-height: 1.65; color: rgba(255,255,255,0.55);">When onboarding indicates age 40+ and/or cycle irregularity, Rhythm activates a perimenopausal mode: heavier weighting on daily mood data over phase predictions, sleep hygiene prioritization, CBT-based approaches for mood lability, and autonomic regulation via breathwork. The intervention logic adapts to the less predictable hormonal terrain.</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <style>
+  @media (max-width: 900px) { .peri-grid { grid-template-columns: 1fr !important; gap: 40px !important; } }
+  @media (max-width: 900px) { .preg-grid { grid-template-columns: 1fr !important; gap: 40px !important; } }
+  </style>
+
+  <!-- Pregnancy & Postpartum Section -->
+  <section style="padding: var(--section-pad); background: var(--sage-pale); border-top: 1px solid var(--sage-light); border-bottom: 1px solid var(--sage-light);">
+    <div class="container">
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-bottom: 64px;" class="preg-grid">
+        <div class="fade-in">
+          <p class="section-label">Pregnancy &amp; the fourth trimester</p>
+          <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; line-height: 1.2; color: var(--charcoal); margin-bottom: 24px;">Your cycle stops.<br>Your brain <em style="color: var(--terracotta);">doesn't.</em></h2>
+          <div class="divider"></div>
+          <p class="body-text" style="margin-bottom: 20px;">Pregnancy silences the menstrual cycle — but neurobiologically, it is one of the most active periods of a woman's life. Estrogen and progesterone reach concentrations orders of magnitude above their cycle peaks. Oxytocin, prolactin, and relaxin reshape both body and brain. And the postpartum window — the so-called fourth trimester — involves one of the most precipitous hormonal withdrawals in human biology.</p>
+          <p class="body-text" style="margin-bottom: 28px;">Rhythm is built to support women through this transition: from the moment cycles return after birth, through the weeks and months of irregular, anovulatory, breastfeeding-modulated cycles, back to a stable rhythm. The research on this window is still developing — but what we do know is clinically significant and largely unaddressed by existing tools.</p>
+
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 0;">
+            <button class="btn btn-sage" style="font-size: 0.8rem;" onclick="showArticle(8); showPage('science');">Read: The Fourth Trimester Brain →</button>
+            <button class="btn btn-outline" style="font-size: 0.8rem;" id="preg-expand-btn" onclick="togglePregnancyExpand()">Conception &amp; pregnancy ↓</button>
+          </div>
+        </div>
+
+        <div class="fade-in fade-in-delay-1">
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+
+            <div style="background: var(--white); border: 1px solid var(--border); padding: 28px 32px;">
+              <p style="font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sage); margin-bottom: 12px;">During pregnancy</p>
+              <p style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 500; color: var(--charcoal); line-height: 1.4; margin-bottom: 10px;">The brain remodels — structurally</p>
+              <p style="font-size: 0.875rem; line-height: 1.65; color: var(--charcoal-mid);">Grey matter volume changes during pregnancy are detectable by MRI and persist for at least two years postpartum (Hoekzema et al., 2017). These are not simply hormonal fluctuations — they represent enduring neuroplasticity, likely related to social cognition and maternal attunement. Progesterone and estrogen at pregnancy concentrations also alter GABAergic tone, sleep architecture, and emotional reactivity in ways that are distinct from the cycle.</p>
+            </div>
+
+            <div style="background: var(--white); border: 1px solid var(--border); padding: 28px 32px;">
+              <p style="font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sage); margin-bottom: 12px;">The postpartum drop</p>
+              <p style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 500; color: var(--charcoal); line-height: 1.4; margin-bottom: 10px;">Estrogen falls faster than at any other point in the lifespan</p>
+              <p style="font-size: 0.875rem; line-height: 1.65; color: var(--charcoal-mid);">Within 24–48 hours of delivery, estrogen and progesterone plummet from their pregnancy peaks to below pre-pregnancy levels. This is the fastest hormonal withdrawal in human biology — and it is the leading neurobiological hypothesis for postpartum mood disorders. Prolactin simultaneously rises, suppressing GnRH and delaying cycle return. The brain must recalibrate across multiple systems simultaneously.</p>
+            </div>
+
+            <div style="background: var(--white); border: 1px solid var(--border); padding: 28px 32px;">
+              <p style="font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sage); margin-bottom: 12px;">Clinical signpost</p>
+              <p style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 500; color: var(--charcoal); line-height: 1.4; margin-bottom: 10px;">Postpartum mental health is a clinical domain</p>
+              <p style="font-size: 0.875rem; line-height: 1.65; color: var(--charcoal-mid); margin-bottom: 12px;">Rhythm supports the postpartum neuropsychological transition — but postpartum depression, anxiety, and psychosis require clinical care. If you are experiencing persistent low mood, intrusive thoughts, or emotional symptoms beyond the first two weeks postpartum, please reach out to a specialist.</p>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <a href="https://www.postpartum.net" target="_blank" style="font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sage); border: 1px solid var(--sage-light); padding: 4px 10px; text-decoration: none; background: var(--sage-pale);">Postpartum Support International →</a>
+                <a href="https://www.apni.org" target="_blank" style="font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sage); border: 1px solid var(--sage-light); padding: 4px 10px; text-decoration: none; background: var(--sage-pale);">APNI (UK) →</a>
+                <a href="https://www.postnatalmentalhealth.com" target="_blank" style="font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sage); border: 1px solid var(--sage-light); padding: 4px 10px; text-decoration: none; background: var(--sage-pale);">Perinatal Mental Health →</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Cycle Return Panel -->
+      <div style="background: var(--white); border: 1px solid var(--border); padding: 48px; margin-bottom: 0;" class="fade-in">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 48px;" class="cycle-return-grid">
+
+          <div>
+            <p style="font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 16px;">When does your cycle return?</p>
+            <p style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; color: var(--charcoal); line-height: 1.35; margin-bottom: 14px;">The honest answer: it varies — and the research is still incomplete.</p>
+            <p style="font-size: 0.875rem; line-height: 1.7; color: var(--charcoal-mid);">Without breastfeeding, menstruation typically returns within 6–8 weeks postpartum. With exclusive breastfeeding, prolactin suppresses ovulation — the lactational amenorrhea mechanism — and cycle return may be delayed from a few months to well over a year. But this is probabilistic, not guaranteed. Ovulation can precede the first postpartum period, meaning pregnancy is possible before the first bleed returns. The exact timeline and its neuropsychological correlates remain an underresearched area.</p>
+          </div>
+
+          <div>
+            <p style="font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 16px;">What those first cycles are like</p>
+            <p style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; color: var(--charcoal); line-height: 1.35; margin-bottom: 14px;">Irregular, often anovulatory, and neuropsychologically noisy.</p>
+            <p style="font-size: 0.875rem; line-height: 1.7; color: var(--charcoal-mid);">The first postpartum cycles frequently lack ovulation — the hormonal machinery is restarting, not yet running at full capacity. Cycle length may be erratic. Luteal phases may be shorter than baseline. The hormonal profiles of these early cycles differ from pre-pregnancy norms, often with lower progesterone output and less predictable estrogen peaks. Mood, energy, and cognitive load during this period can feel unstable in ways that don't map cleanly onto the cycle phase model you may have known before.</p>
+          </div>
+
+          <div>
+            <p style="font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 16px;">How Rhythm supports this window</p>
+            <p style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; color: var(--charcoal); line-height: 1.35; margin-bottom: 14px;">Postpartum mode — then, gradually, back to regular Rhythm.</p>
+            <p style="font-size: 0.875rem; line-height: 1.7; color: var(--charcoal-mid);">When onboarding indicates a recent birth (within 12 months), Rhythm activates postpartum mode: phase prediction is suspended, daily mood data becomes the primary signal, and interventions are calibrated for sleep deprivation, emotional volatility, and autonomic dysregulation. Breastfeeding status is factored into the cycle-return model. As cycles regularise and you report more consistent patterns, Rhythm transitions you — gently, gradually — back to the full phase-aware model. The irregularity is normal. It won't last. You'll find your rhythm again.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Expandable: Conception & Pregnancy -->
+      <div id="preg-expanded" style="display: none; margin-top: 2px;">
+        <div style="background: var(--terracotta-pale); border: 1px solid var(--terracotta-light); padding: 48px;">
+          <p class="section-label" style="margin-bottom: 16px;">Conception &amp; pregnancy</p>
+          <h3 style="font-family: var(--font-display); font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 400; color: var(--charcoal); margin-bottom: 24px; line-height: 1.3;">The pregnant brain is not a paused brain.<br><em>It is an actively remodelling one.</em></h3>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px;" class="conception-grid">
+            <div>
+              <p style="font-size: 0.875rem; line-height: 1.75; color: var(--charcoal-mid); margin-bottom: 16px;">Structural neuroplasticity during pregnancy is now documented by neuroimaging research (Hoekzema et al., 2017; Carmona et al., 2019). Grey matter volume changes — concentrated in regions associated with social cognition, theory of mind, and self-referential processing — are detectable from the first trimester and persist years beyond birth. These are not deficits; they appear to represent adaptive specialisation for caregiving demands.</p>
+              <p style="font-size: 0.875rem; line-height: 1.75; color: var(--charcoal-mid); margin-bottom: 16px;">First-trimester progesterone and hCG contribute to fatigue, nausea, and what is often called "pregnancy brain" — cognitive changes including slowed processing speed and mild memory effects that are real and measurable, though frequently overstated in popular accounts. Second-trimester estrogen peaks bring a window of relative stability. Third-trimester progesterone dominance modulates sleep architecture and increases emotional reactivity as the brain prepares for birth and bonding.</p>
+              <p style="font-size: 0.875rem; line-height: 1.75; color: var(--charcoal-mid);">This section of Rhythm is in active development. The science of the pregnant brain is expanding rapidly — and it deserves serious attention in a women's neuropsychological health tool.</p>
+            </div>
+            <div>
+              <div style="border-left: 3px solid var(--terracotta); padding-left: 20px; margin-bottom: 24px;">
+                <p style="font-family: var(--font-display); font-size: 1.1rem; font-style: italic; color: var(--charcoal); line-height: 1.5; font-weight: 400;">"Pregnancy is associated with a decrease in global grey matter volume that is selective, long-lasting, and — importantly — not associated with cognitive decline. It is adaptation, not deterioration."</p>
+                <p style="font-size: 0.8rem; color: var(--charcoal-light); margin-top: 8px;">— Based on Hoekzema et al. (2017), <em>Nature Neuroscience</em></p>
+              </div>
+              <div style="background: var(--white); border: 1px solid var(--border); padding: 20px 24px;">
+                <p style="font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--charcoal-light); margin-bottom: 12px;">Support resources</p>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                  <a href="https://www.tommys.org" target="_blank" style="font-size: 0.8125rem; color: var(--terracotta); text-decoration: none;">Tommy's — Pregnancy &amp; Baby Charity →</a>
+                  <a href="https://www.marchofdimes.org" target="_blank" style="font-size: 0.8125rem; color: var(--terracotta); text-decoration: none;">March of Dimes →</a>
+                  <a href="https://psi.sagepub.com" target="_blank" style="font-size: 0.8125rem; color: var(--terracotta); text-decoration: none;">Perinatal Mental Health Research →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p style="font-size: 0.8rem; color: var(--charcoal-light); margin-top: 24px; font-style: italic;">Note: Rhythm does not provide pregnancy health advice. This section is neuropsychological context, not clinical guidance. If you are pregnant or trying to conceive, work with your healthcare provider.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <style>
+  @media (max-width: 900px) {
+    .cycle-return-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+    .conception-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  }
+  </style>
+
+  <!-- Meet the Founder -->
+  <section class="founder-section">
+    <div class="container">
+      <div class="founder-inner">
+
+        <div>
+          <div class="founder-photo-placeholder">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="18" r="9" stroke="#C4724A" stroke-width="1.5" fill="none"/>
+              <path d="M8 44 C8 34 40 34 40 44" stroke="#C4724A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            </svg>
+            <span>[Photo placeholder]</span>
+          </div>
+        </div>
+
+        <div class="founder-content fade-in">
+          <p class="section-label">Meet the founder</p>
+          <h2 class="display-heading" style="font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 16px;">[Founder Name] <span style="font-style:italic; color: var(--charcoal-light);">—</span></h2>
+          <p class="phase-badge" style="margin-bottom: 28px;">Reproductive Neuroscientist · Women's Health Researcher</p>
+
+          <div class="placeholder-block" style="margin-bottom: 24px;">
+            [PLACEHOLDER — Founder bio. 2–3 paragraphs. Suggested content: academic background (BS Biopsychology; MSc Neuroscience in progress), original graduate research on psychophysiology and effort perception across the menstrual cycle — conducted in collaboration with researchers at Tel Aviv University, UC Santa Barbara, and Cambridge. Published work in the Lancet Group, International Journal of Cancer, and BMC Public Health. Role as Scientific Research Specialist at Israel's Women's Cancer Association. Keep tone: first-person, warm but rigorous, unsentimental.]
+          </div>
+
+          <blockquote style="border-left: 3px solid var(--terracotta); padding-left: 20px; margin: 24px 0; font-family: var(--font-display); font-size: 1.25rem; font-style: italic; color: var(--charcoal); line-height: 1.5; font-weight: 300;">
+            "Knowledge of your own neuropsychology is the first intervention. Everything else is downstream of that."
+          </blockquote>
+
+          <p class="body-text" style="margin-bottom: 0;">Graduate research in reproductive neuropsychology conducted with collaborators at Tel Aviv University, UC Santa Barbara, and Cambridge. Published work in the Lancet Group, <em>International Journal of Cancer</em>, and <em>BMC Public Health</em>.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-logo">Rhythm.</div>
+          <p class="footer-tagline">Your cycle. Your brain. Your interventions.</p>
+        </div>
+        <div class="footer-links">
+          <a onclick="showPage('science')" style="cursor:pointer;">The Science</a>
+          <a onclick="showPage('app')" style="cursor:pointer;">The App</a>
+          <a onclick="showPage('about')" style="cursor:pointer;">About</a>
+          <a href="[PLACEHOLDER — LinkedIn URL]" target="_blank">LinkedIn</a>
+        </div>
+        <div>
+          <p class="built-on-evidence">Built on evidence</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Rhythm. A portfolio project in evidence-based digital health.</p>
+        <p>[PLACEHOLDER — Contact or affiliation link]</p>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /page-home -->
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PAGE 2: THE SCIENCE (BLOG) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="page-science" class="page">
+
+  <!-- Blog Index (shown by default) -->
+  <div id="blog-index">
+    <section class="blog-hero">
+      <div class="container">
+        <p class="section-label fade-in">The science</p>
+        <h1 class="display-heading fade-in fade-in-delay-1" style="font-size: clamp(2.5rem, 5vw, 4.5rem); max-width: 700px; margin-bottom: 24px;">Evidence.<br><em>Not vibes.</em></h1>
+        <p class="lead fade-in fade-in-delay-2" style="max-width: 560px;">Eight deep-dives into the neuroscience of women's brain health. Peer-reviewed. Plain-language. Built for the woman who wants to understand her own neuropsychology — and the clinician or researcher who wants the references.</p>
+      </div>
+    </section>
+
+    <section class="blog-index">
+      <div class="container">
+        <div class="blog-grid" id="blog-grid">
+
+          <div class="article-card fade-in" onclick="showArticle(0)">
+            <span class="article-tag">Neuroscience · Foundational</span>
+            <h3>Why Your Brain Changes Across Your Cycle</h3>
+            <p class="article-teaser">Estrogen and progesterone are neuroactive steroids. Across the menstrual, follicular, ovulatory, and luteal phases, they modulate memory encoding, effort perception, mood regulation, and neural connectivity — in ways that vary substantially between individuals.</p>
+            <div class="article-meta">
+              <span class="read-time">~12 min read</span>
+              <span class="btn-text" style="font-size: 0.8rem;">Read More</span>
+            </div>
+          </div>
+
+          <div class="article-card fade-in fade-in-delay-1" onclick="showArticle(1)">
+            <span class="article-tag">Individual Variation · Core Thesis</span>
+            <h3>Individual Variation: Why You Are Not Your Phase</h3>
+            <p class="article-teaser">The group-level research on cycle phases is real — but within-person and between-person variation often exceeds between-phase differences. Understanding this distinction is what separates Rhythm from every other cycle app.</p>
+            <div class="article-meta">
+              <span class="read-time">~10 min read</span>
+              <span class="btn-text" style="font-size: 0.8rem;">Read More</span>
+            </div>
+          </div>
+
+          <div class="article-card fade-in" onclick="showArticle(2)">
+            <span class="article-tag">Clinical · Comorbidities</span>
+            <h3>PCOS, Endometriosis, and the Brain</h3>
+            <p class="article-teaser">Polycystic ovary syndrome and endometriosis are not purely gynecological conditions. Both involve dysregulated neuroendocrine signaling, elevated HPA axis activity, and documented increases in anxiety, depression, and cognitive symptoms.</p>
+            <div class="article-meta">
+              <span class="read-time">~14 min read</span>
+              <span class="btn-text" style="font-size: 0.8rem;">Read More</span>
+            </div>
+          </div>
+
+          <div class="article-card fade-in fade-in-delay-1" onclick="showArticle(3)">
+            <span class="article-tag">Stress · Fertility · HPA Axis</span>
+            <h3>Fertility, Stress, and the HPA Axis</h3>
+            <p class="article-teaser">Chronic stress suppresses reproductive hormones via the HPA–HPG axis. Mind-body interventions — including Domar's program and mindfulness-based fertility protocols — have demonstrated real effects on both psychological outcomes and cycle regularity.</p>
+            <div class="article-meta">
+              <span class="read-time">~13 min read</span>
+              <span class="btn-text" style="font-size: 0.8rem;">Read More</span>
+            </div>
+          </div>
+
+          <div class="article-card fade-in" onclick="showArticle(4)">
+            <span class="article-tag">Perimenopause · Cognition</span>
+            <h3>Perimenopause, Menopause, and Cognitive Change</h3>
+            <p class="article-teaser">What actually happens to the brain during the menopausal transition — from estrogen's neuroprotective role to white matter microstructure, memory, and sleep architecture. What the evidence supports, and what it doesn't.</p>
+            <div class="article-meta">
+              <span class="read-time">~15 min read</span>
+              <span class="btn-text" style="font-size: 0.8rem;">Read More</span>
+            </div>
+          </div>
+
+          <div class="article-card fade-in fade-in-delay-1" onclick="showArticle(5)">
+            <span class="article-tag">Sleep · Autonomic · HRV</span>
+            <h3>HRV, Sleep Architecture, and Your Cycle</h3>
+            <p class="article-teaser">Heart rate variability and sleep architecture shift measurably across menstrual phases. Progesterone is thermogenic, ovulation disrupts REM, and the luteal phase affects both autonomic tone and sleep quality — with real implications for recovery and cognitive performance.</p>
+            <div class="article-meta">
+              <span class="read-time">~11 min read</span>
+              <span class="btn-text" style="font-size: 0.8rem;">Read More</span>
+            </div>
+          </div>
+
+          <div class="article-card fade-in" onclick="showArticle(6)">
+            <span class="article-tag">Behavioral Science · Design</span>
+            <h3>Environmental Optimization: Designing Your Life Around Your Neuropsychology</h3>
+            <p class="article-teaser">Implementation intentions, habit stacking, and environmental design are evidence-based behavioral science tools — not productivity hacks. Aligning them with your neuropsychological profile creates conditions for sustainable behavior change.</p>
+            <div class="article-meta">
+              <span class="read-time">~10 min read</span>
+              <span class="btn-text" style="font-size: 0.8rem;">Read More</span>
+            </div>
+          </div>
+
+          <div class="article-card fade-in fade-in-delay-1" onclick="showArticle(7)">
+            <span class="article-tag">Interventions · Evidence Review</span>
+            <h3>The Evidence for Breathwork, Meditation, and CBT in Women's Mental Health</h3>
+            <p class="article-teaser">A structured review of the clinical evidence for the interventions Rhythm recommends: respiratory-paced breathing, mindfulness meditation, CBT, ACT, and movement — with effect sizes, populations studied, and what we still don't know.</p>
+            <div class="article-meta">
+              <span class="read-time">~16 min read</span>
+              <span class="btn-text" style="font-size: 0.8rem;">Read More</span>
+            </div>
+          </div>
+
+          <div class="article-card fade-in" onclick="showArticle(8)">
+            <span class="article-tag">Postpartum · Perinatal · Fourth Trimester</span>
+            <h3>The Fourth Trimester Brain: Pregnancy, Postpartum, and the Return of Your Cycle</h3>
+            <p class="article-teaser">The postpartum window involves the fastest hormonal withdrawal in human biology. Grey matter remodels during pregnancy. Cycles return irregularly, often anovulatory at first. Here is what the neuroscience says — and what Rhythm does during this transition.</p>
+            <div class="article-meta">
+              <span class="read-time">~14 min read</span>
+              <span class="btn-text" style="font-size: 0.8rem;">Read More</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="footer-inner">
+          <div>
+            <div class="footer-logo">Rhythm.</div>
+            <p class="footer-tagline">Your cycle. Your brain. Your interventions.</p>
+          </div>
+          <div class="footer-links">
+            <a onclick="showPage('home')" style="cursor:pointer;">Home</a>
+            <a onclick="showPage('app')" style="cursor:pointer;">The App</a>
+            <a onclick="showPage('about')" style="cursor:pointer;">About</a>
+          </div>
+          <p class="built-on-evidence">Built on evidence</p>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 Rhythm. A portfolio project in evidence-based digital health.</p>
+        </div>
+      </div>
+    </footer>
+  </div><!-- /blog-index -->
+
+  <!-- Article Pages (hidden by default, shown when card clicked) -->
+  <div id="article-display" style="display:none;">
+    <div class="container">
+      <a class="article-back" onclick="hideArticle()">← Back to The Science</a>
+      <div id="article-content"></div>
+    </div>
+    <footer style="margin-top: 80px;">
+      <div class="container">
+        <div class="footer-inner">
+          <div><div class="footer-logo">Rhythm.</div></div>
+          <div class="footer-links">
+            <a onclick="showPage('home')" style="cursor:pointer;">Home</a>
+            <a onclick="showPage('app')" style="cursor:pointer;">The App</a>
+          </div>
+          <p class="built-on-evidence">Built on evidence</p>
+        </div>
+        <div class="footer-bottom"><p>© 2025 Rhythm.</p></div>
+      </div>
+    </footer>
+  </div>
+
+</div><!-- /page-science -->
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PAGE 3: THE APP -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="page-app" class="page">
+
+  <section class="app-hero">
+    <div class="container">
+      <p class="section-label fade-in">The app</p>
+      <h1 class="display-heading fade-in fade-in-delay-1" style="font-size: clamp(2.5rem, 5vw, 4.5rem); max-width: 680px; margin-bottom: 24px;">Personalization at the intersection of <em>cycle science</em> and <em>mood</em>.</h1>
+      <p class="lead fade-in fade-in-delay-2" style="max-width: 560px;">Rhythm is not a symptom tracker. It is an intervention delivery system, personalized by where you are in your cycle, how you feel today, and who you are as a psychological individual.</p>
+    </div>
+  </section>
+
+  <section class="app-overview">
+    <div class="container">
+      <div class="app-overview-grid">
+        <div class="fade-in">
+          <p class="section-label">How it works</p>
+          <h2 class="display-heading" style="font-size: clamp(1.8rem, 3vw, 2.4rem); margin-bottom: 32px;">Three layers of personalization. One coherent recommendation.</h2>
+
+          <div class="layer-card" style="border-left: 3px solid var(--terracotta);">
+            <span class="layer-number">Onboarding</span>
+            <h4>Who You Are</h4>
+            <p style="font-size:0.9rem; color: var(--charcoal-mid); line-height:1.65; margin-bottom: 12px;">Before Rhythm recommends anything, it builds your profile. This includes:</p>
+            <ul style="font-size: 0.875rem; color: var(--charcoal-mid); line-height: 1.7; margin-left: 16px; margin-bottom: 0;">
+              <li><strong>Age</strong> — to contextualise cycle stage and neurobiological baseline</li>
+              <li><strong>Cycle regularity</strong> — regular, somewhat irregular, or highly variable</li>
+              <li><strong>Average cycle length</strong> — used to estimate current phase</li>
+              <li><strong>Perimenopause indicators</strong> — for women 40+ or with irregular cycles, Rhythm activates an adapted interpretation model</li>
+              <li><strong>Recent birth</strong> — within the past 12 months triggers postpartum mode; breastfeeding status is recorded as it affects cycle return timeline and hormonal suppression</li>
+              <li><strong>Hormonal contraception or HRT</strong> — which changes the phase-inference logic entirely</li>
+              <li><strong>Relevant diagnoses</strong> — PCOS, endometriosis, thyroid conditions</li>
+              <li><strong>Psychological traits</strong> — anxiety sensitivity, emotion regulation style, sleep chronotype, mindfulness background</li>
+            </ul>
+          </div>
+
+          <div class="layer-card">
+            <span class="layer-number">Layer 01</span>
+            <h4>Cycle Phase Context</h4>
+            <p style="font-size:0.9rem; color: var(--charcoal-mid); line-height:1.65;">Your current menstrual phase (menstrual, follicular, ovulatory, or luteal) provides the neuropsychological backdrop. For women in irregular or perimenopausal cycles, this layer is weighted lower — daily mood data takes over as the primary signal.</p>
+          </div>
+
+          <div class="layer-card">
+            <span class="layer-number">Layer 02</span>
+            <h4>Daily Mood Calibration</h4>
+            <p style="font-size:0.9rem; color: var(--charcoal-mid); line-height:1.65;">A brief daily check-in captures your actual state: energy level, emotional valence, cognitive load, and physical symptoms. This real-time layer overrides phase defaults — because you know yourself better than a population average does.</p>
+          </div>
+        </div>
+
+        <div class="fade-in fade-in-delay-1">
+          <p class="section-label">What rhythm does</p>
+          <h3 class="display-heading" style="font-size: 1.6rem; margin-bottom: 24px;">From data to action, every day.</h3>
+          <p class="body-text" style="margin-bottom: 20px;">Rhythm synthesizes your phase context, daily check-in, and baseline trait profile to generate a ranked set of evidence-based interventions — with an explanation of why each is recommended, drawn from the underlying research literature.</p>
+          <p class="body-text" style="margin-bottom: 20px;">Unlike apps that deliver the same meditation to every woman on day 14 of her cycle, Rhythm understands that a high-anxiety woman in her luteal phase who slept poorly needs a different intervention than a low-anxiety woman in her follicular phase who runs regularly.</p>
+          <p class="body-text" style="margin-bottom: 32px;">Each intervention comes with: a 5–10 minute guided exercise, the evidence base summarized in two sentences, a link to the relevant article in The Science, and a check-in after completion.</p>
+
+          <div style="background: var(--terracotta-pale); border: 1px solid var(--terracotta-light); padding: 28px; margin-top: 32px;">
+            <p class="section-label" style="margin-bottom: 8px;">Design principle</p>
+            <p style="font-family: var(--font-display); font-size: 1.2rem; font-style: italic; color: var(--charcoal); line-height: 1.5; font-weight: 400;">Understanding your own neuropsychology is the first intervention. Everything else follows from that.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Embed -->
+  <section class="demo-embed">
+    <div class="container">
+      <p class="section-label fade-in">Interactive Demo</p>
+      <h2 class="display-heading fade-in fade-in-delay-1" style="font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 40px;">Try Rhythm.</h2>
+
+      <div class="demo-placeholder fade-in fade-in-delay-2">
+        <div class="demo-placeholder-inner">
+          <h3>— DEMO EMBED HERE —</h3>
+          <p>Embed the Rhythm React artifact here using an iframe or a React mount point. The demo allows users to select their cycle phase, complete a mood check-in, and receive a personalized intervention recommendation with evidence explanation.</p>
+          <div class="demo-embed-code">
+&lt;!-- Option A: iframe embed --&gt;<br>
+&lt;iframe<br>
+&nbsp;&nbsp;src="YOUR_REACT_DEMO_URL"<br>
+&nbsp;&nbsp;width="100%"<br>
+&nbsp;&nbsp;height="700"<br>
+&nbsp;&nbsp;frameborder="0"<br>
+&nbsp;&nbsp;style="border-radius: 4px;"<br>
+/&gt;<br><br>
+&lt;!-- Option B: mount React artifact --&gt;<br>
+&lt;div id="rhythm-demo"&gt;&lt;/div&gt;<br>
+&lt;script src="rhythm-demo.bundle.js"&gt;&lt;/script&gt;
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why This Matters -->
+  <section class="why-matters">
+    <div class="container">
+      <div class="why-matters-inner fade-in">
+        <p class="section-label">Why this matters</p>
+        <h2 class="display-heading" style="font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 32px;">The gap in the market is not a cycle tracker.<br><em>It's an intervention layer.</em></h2>
+
+        <p style="font-size: 1rem; line-height: 1.85; color: var(--charcoal-mid); margin-bottom: 20px;">Cycle tracking apps — from Clue to Flo to Natural Cycles — have built large audiences by giving women data about their cycles. That is genuinely valuable. But data without action is surveillance, not health. None of these apps has built a clinically-grounded, psychologically-personalized intervention delivery system on top of cycle phase information.</p>
+
+        <p style="font-size: 1rem; line-height: 1.85; color: var(--charcoal-mid); margin-bottom: 20px;">Meanwhile, general-purpose mental wellness apps — Calm, Headspace, Woebot — provide evidence-based interventions with no understanding of the neuroendocrine context in which those interventions are delivered. A guided meditation is not the same intervention for a woman in the late luteal phase with high anxiety sensitivity as it is for a woman mid-follicular with a strong mindfulness background.</p>
+
+        <p style="font-size: 1rem; line-height: 1.85; color: var(--charcoal-mid);">Rhythm is the bridge: cycle phase awareness + individual psychological profiling + evidence-based behavioral intervention, unified into a daily practice that adapts in real time. This is what personalized medicine looks like at the behavioral level.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intervention Cards -->
+  <section class="intervention-cards">
+    <div class="container">
+      <p class="section-label fade-in">Intervention library</p>
+      <h2 class="display-heading fade-in fade-in-delay-1" style="font-size: clamp(1.8rem, 3vw, 2.6rem);">What Rhythm recommends — and why.</h2>
+
+      <div class="intervention-grid">
+
+        <div class="intervention-card fade-in">
+          <svg class="intervention-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="14" stroke="#C4724A" stroke-width="1.5" fill="none"/>
+            <path d="M20 10 C20 10 14 15 14 20 C14 25 20 30 20 30 C20 30 26 25 26 20 C26 15 20 10 20 10Z" stroke="#C4724A" stroke-width="1" fill="none" opacity="0.5"/>
+          </svg>
+          <h4>Breathwork</h4>
+          <p>Respiratory-paced breathing modulates vagal tone and HPA axis reactivity. Particularly effective during the luteal phase and in high-anxiety states.</p>
+          <span class="evidence-tag">RCT-supported</span>
+        </div>
+
+        <div class="intervention-card fade-in fade-in-delay-1">
+          <svg class="intervention-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="14" stroke="#7A9E7E" stroke-width="1.5" fill="none"/>
+            <circle cx="20" cy="20" r="7" stroke="#7A9E7E" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
+            <circle cx="20" cy="20" r="2" fill="#7A9E7E" opacity="0.6"/>
+          </svg>
+          <h4>Meditation</h4>
+          <p>Mindfulness-based practices reduce amygdala reactivity and cortisol output. Effect sizes are strongest for trait-anxious individuals and premenstrual symptom clusters.</p>
+          <span class="evidence-tag">Meta-analysis supported</span>
+        </div>
+
+        <div class="intervention-card fade-in fade-in-delay-2">
+          <svg class="intervention-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="10" width="24" height="20" rx="2" stroke="#C4724A" stroke-width="1.5" fill="none"/>
+            <line x1="8" y1="17" x2="32" y2="17" stroke="#C4724A" stroke-width="1" opacity="0.4"/>
+            <line x1="13" y1="22" x2="23" y2="22" stroke="#C4724A" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+            <line x1="13" y1="26" x2="27" y2="26" stroke="#C4724A" stroke-width="1" stroke-linecap="round" opacity="0.4"/>
+          </svg>
+          <h4>CBT</h4>
+          <p>Cognitive restructuring and behavioral activation are the most evidence-dense interventions available for mood dysregulation, effective across cycle phases but especially during luteal and perimenstrual windows.</p>
+          <span class="evidence-tag">Gold standard</span>
+        </div>
+
+        <div class="intervention-card fade-in fade-in-delay-3">
+          <svg class="intervention-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 28 C12 20 18 14 20 12 C22 14 28 20 28 28" stroke="#7A9E7E" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <line x1="20" y1="12" x2="20" y2="8" stroke="#7A9E7E" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+            <circle cx="20" cy="7" r="2" fill="#7A9E7E" opacity="0.4"/>
+          </svg>
+          <h4>ACT</h4>
+          <p>Acceptance and Commitment Therapy reduces psychological inflexibility and experiential avoidance — particularly relevant for women with PMDD or cycle-related mood disruption who benefit from defusing from difficult internal states.</p>
+          <span class="evidence-tag">RCT-supported</span>
+        </div>
+
+        <div class="intervention-card fade-in">
+          <svg class="intervention-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 28 L16 18 L22 24 L28 14 L34 20" stroke="#C4724A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="10" cy="28" r="2" fill="#C4724A" opacity="0.6"/>
+            <circle cx="34" cy="20" r="2" fill="#C4724A" opacity="0.6"/>
+          </svg>
+          <h4>Movement</h4>
+          <p>Aerobic exercise is anxiolytic and antidepressant, with neuroplasticity effects via BDNF upregulation. Rhythm adjusts intensity recommendations based on cycle phase — high-intensity during follicular, restorative during late luteal.</p>
+          <span class="evidence-tag">Systematic review</span>
+        </div>
+
+        <div class="intervention-card fade-in fade-in-delay-1">
+          <svg class="intervention-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="8" width="20" height="26" rx="2" stroke="#7A9E7E" stroke-width="1.5" fill="none"/>
+            <line x1="14" y1="15" x2="26" y2="15" stroke="#7A9E7E" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+            <line x1="14" y1="20" x2="26" y2="20" stroke="#7A9E7E" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+            <line x1="14" y1="25" x2="21" y2="25" stroke="#7A9E7E" stroke-width="1" stroke-linecap="round" opacity="0.4"/>
+          </svg>
+          <h4>Journaling</h4>
+          <p>Expressive writing and structured self-monitoring reduce rumination and improve emotional processing. Rhythm offers phase-specific prompts that draw from IFS, CBT, and narrative therapy frameworks.</p>
+          <span class="evidence-tag">Evidence-based</span>
+        </div>
+
+        <div class="intervention-card fade-in fade-in-delay-2">
+          <svg class="intervention-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 22 C8 22 12 10 20 10 C28 10 32 22 32 22" stroke="#C4724A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M8 22 C8 22 12 34 20 34 C28 34 32 22 32 22" stroke="#C4724A" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.4"/>
+            <line x1="20" y1="10" x2="20" y2="34" stroke="#C4724A" stroke-width="1" opacity="0.2"/>
+          </svg>
+          <h4>Sleep Hygiene</h4>
+          <p>Sleep architecture shifts measurably across cycle phases. Rhythm provides personalized sleep hygiene recommendations that account for progesterone-driven thermogenic effects and luteal-phase REM disruption.</p>
+          <span class="evidence-tag">Clinical guideline-aligned</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div><div class="footer-logo">Rhythm.</div><p class="footer-tagline">Your cycle. Your brain. Your interventions.</p></div>
+        <div class="footer-links">
+          <a onclick="showPage('home')" style="cursor:pointer;">Home</a>
+          <a onclick="showPage('science')" style="cursor:pointer;">The Science</a>
+          <a onclick="showPage('about')" style="cursor:pointer;">About</a>
+        </div>
+        <p class="built-on-evidence">Built on evidence</p>
+      </div>
+      <div class="footer-bottom"><p>© 2025 Rhythm. A portfolio project in evidence-based digital health.</p></div>
+    </div>
+  </footer>
+
+</div><!-- /page-app -->
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PAGE 4: ABOUT -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="page-about" class="page">
+
+  <section class="about-hero">
+    <div class="container">
+      <p class="section-label fade-in">About Rhythm</p>
+      <h1 class="display-heading fade-in fade-in-delay-1" style="font-size: clamp(2.5rem, 5vw, 4.5rem); max-width: 640px; margin-bottom: 24px;">Built on original research.<br><em>Designed for individuals.</em></h1>
+      <p class="lead fade-in fade-in-delay-2" style="max-width: 560px;">Rhythm is a portfolio project by a neuroscientist and women's health researcher. It is not a wellness app. It is a demonstration of what evidence-based, individually-personalized digital mental health infrastructure can look like.</p>
+    </div>
+  </section>
+
+  <!-- Founder Full Bio -->
+  <section class="about-founder">
+    <div class="container">
+      <div class="about-founder-grid">
+        <div class="fade-in">
+          <div class="about-founder-photo">
+            <p style="font-size: 0.75rem; color: var(--terracotta); letter-spacing: 0.08em; text-transform: uppercase;">[Photo placeholder]</p>
+          </div>
+          <div style="margin-top: 20px;">
+            <p style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 500; color: var(--charcoal);">[Founder Name]</p>
+            <p style="font-size: 0.875rem; color: var(--charcoal-light); margin-top: 4px;">[PLACEHOLDER — Title / Affiliation]</p>
+          </div>
+        </div>
+
+        <div class="fade-in fade-in-delay-1">
+          <p class="section-label">The founder</p>
+          <h2 class="display-heading" style="font-size: clamp(1.6rem, 2.5vw, 2.2rem); margin-bottom: 28px;">Neuroscientist. Researcher. Builder.</h2>
+
+          <div class="placeholder-block" style="margin-bottom: 20px;">
+            [PLACEHOLDER — Full bio paragraph 1. Suggested content: Academic background — BS in Biopsychology (UC Santa Barbara), MSc in Neuroscience (Tel Aviv University, in progress). Research focus on psychophysiology and effort perception across the menstrual cycle. Emphasis on individual variation in neuropsychological outcomes.]
+          </div>
+
+          <div class="placeholder-block" style="margin-bottom: 20px;">
+            [PLACEHOLDER — Full bio paragraph 2. Suggested content: Professional role at a women's cancer advocacy organization (HaBait Shel Bar / Israel's Women's Cancer Association). Published work in the Lancet Group, International Journal of Cancer, BMC Public Health. Advisory experience.]
+          </div>
+
+          <div class="placeholder-block" style="margin-bottom: 32px;">
+            [PLACEHOLDER — Full bio paragraph 3. Suggested content: What drove the creation of Rhythm — the gap between the volume of cycle data that apps collect and the absence of evidence-based behavioral intervention infrastructure. The personal and professional observations that made building this feel necessary.]
+          </div>
+
+          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <a href="[PLACEHOLDER — LinkedIn URL]" target="_blank" class="btn btn-outline" style="font-size: 0.8rem;">LinkedIn →</a>
+            <a href="[PLACEHOLDER — Google Scholar or ORCID URL]" target="_blank" class="btn btn-outline" style="font-size: 0.8rem;">Published Work →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research Behind Rhythm -->
+  <section class="research-section">
+    <div class="container">
+      <div class="research-inner">
+        <div class="fade-in">
+          <p class="section-label">The research</p>
+          <h2 class="display-heading" style="font-size: clamp(1.6rem, 2.5vw, 2.2rem); margin-bottom: 20px;">Built on original psychophysiology research.</h2>
+          <div class="divider"></div>
+          <p class="body-text" style="margin-bottom: 16px;">Rhythm is grounded in original graduate research on the psychophysiology of effort perception and subjective experience across the menstrual cycle, using ecological momentary assessment (EMA) in a naturalistic longitudinal design. The research examines menstrual phase effects on mental and physical effort, with heart rate variability (HRV) as a psychophysiological moderator.</p>
+          <p class="body-text" style="margin-bottom: 16px;">This work was conducted as a graduate thesis in collaboration with researchers at Tel Aviv University, the University of California Santa Barbara, and Cambridge — spanning reproductive neuroendocrinology, psychophysiology, and behavioral measurement methodology.</p>
+          <p class="body-text" style="margin-bottom: 24px;">The research directly informs Rhythm's core design premise: that within-person variation in effort, mood, and cognitive experience is substantial, phase-sensitive, and insufficiently addressed by existing behavioral health tools.</p>
+          <a href="[PLACEHOLDER — Thesis or publication link]" class="btn-text" target="_blank">View published work</a>
+        </div>
+
+        <div class="fade-in fade-in-delay-1">
+          <p class="section-label">Publication highlights</p>
+          <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 24px;">
+
+            <div style="padding: 20px 24px; border: 1px solid var(--border); background: var(--white);">
+              <p class="placeholder-label">[PLACEHOLDER]</p>
+              <p style="font-size: 0.9375rem; font-weight: 500; color: var(--charcoal); line-height: 1.4; margin-bottom: 8px;">[Publication Title — Lancet Group journal]</p>
+              <p style="font-size: 0.8125rem; color: var(--charcoal-light);">[Journal name] · [Year] · [Co-authors if applicable]</p>
+            </div>
+
+            <div style="padding: 20px 24px; border: 1px solid var(--border); background: var(--white);">
+              <p class="placeholder-label">[PLACEHOLDER]</p>
+              <p style="font-size: 0.9375rem; font-weight: 500; color: var(--charcoal); line-height: 1.4; margin-bottom: 8px;">[Publication Title — International Journal of Cancer]</p>
+              <p style="font-size: 0.8125rem; color: var(--charcoal-light);">International Journal of Cancer · [Year]</p>
+            </div>
+
+            <div style="padding: 20px 24px; border: 1px solid var(--border); background: var(--white);">
+              <p class="placeholder-label">[PLACEHOLDER]</p>
+              <p style="font-size: 0.9375rem; font-weight: 500; color: var(--charcoal); line-height: 1.4; margin-bottom: 8px;">[Publication Title — BMC Public Health]</p>
+              <p style="font-size: 0.8125rem; color: var(--charcoal-light);">BMC Public Health · [Year]</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission Statement -->
+  <section class="mission-statement">
+    <div class="container" style="max-width: 800px;">
+      <p class="section-label" style="color: var(--terracotta-light);">Mission</p>
+      <h2>Evidence-based.<br>Individual-first.<br><em>Not pink and fluffy.</em></h2>
+      <div class="divider"></div>
+      <p style="font-size: 1rem; line-height: 1.85; color: rgba(255,255,255,0.65); margin-bottom: 20px;">Women's health has a wellness problem. The market for cycle apps, hormonal supplements, and "femtech" is growing rapidly — but the signal-to-noise ratio is low. Aesthetic branding has outpaced clinical evidence. Products are marketed on social media virality rather than randomized controlled trial data. The dominant palette is pink. The dominant claim is empowerment, undefined.</p>
+      <p style="font-size: 1rem; line-height: 1.85; color: rgba(255,255,255,0.65); margin-bottom: 20px;">Rhythm is a deliberate alternative. Every feature is grounded in peer-reviewed literature. Every intervention is selected based on effect size and population relevance. The design is clean because the content is rigorous. This is not a wellness brand. It is a clinical decision-support framework for individual neuropsychological health, delivered at consumer scale.</p>
+      <p style="font-size: 1rem; line-height: 1.85; color: rgba(255,255,255,0.65);">The goal is not to make women feel good about their cycle. The goal is to give them the tools to understand their own neuroscience and act on it — intelligently, consistently, and without mystification.</p>
+    </div>
+  </section>
+
+  <!-- For Employers -->
+  <section class="for-employers">
+    <div class="container">
+      <p class="section-label fade-in">For employers and collaborators</p>
+      <div class="employer-card fade-in fade-in-delay-1">
+        <h3>A portfolio project in end-to-end digital health product thinking.</h3>
+        <p>Rhythm demonstrates the full arc of evidence-based digital health product development — from clinical literature synthesis and research translation to product architecture and AI-powered personalization logic. It is built to the standard of a real product, by a researcher who has worked at the intersection of reproductive neuroscience, women's health policy, and clinical outcomes.</p>
+
+        <ul class="capability-list">
+          <li><strong>Product management:</strong> end-to-end product specification — user need identification, evidence synthesis, feature logic design, intervention taxonomy, onboarding flow, and personalization architecture</li>
+          <li><strong>Innovation management:</strong> identifying a validated gap between consumer cycle apps (data only) and wellness apps (intervention, no biological context) and designing the product layer that bridges them</li>
+          <li><strong>Therapeutic program design:</strong> mapping intervention types (CBT, ACT, breathwork, movement, sleep hygiene) to clinical evidence, cycle-phase neuropsychology, and individual trait profiles — the same logic that underpins digital therapeutic program development</li>
+          <li><strong>Clinical evidence translation:</strong> converting peer-reviewed neuroscience and psychophysiology into accessible product copy, UX decisions, and recommendation logic — without losing scientific precision</li>
+          <li><strong>Research foundation:</strong> original graduate thesis on reproductive neuropsychology in collaboration with researchers at Tel Aviv University, UC Santa Barbara, and Cambridge; published work in the Lancet Group, <em>International Journal of Cancer</em>, and <em>BMC Public Health</em></li>
+          <li><strong>Patient-centered outcomes thinking:</strong> ecological momentary assessment and PRO methodology directly informs both the thesis research design and Rhythm's daily check-in architecture</li>
+          <li><strong>Stakeholder communication:</strong> demonstrated ability to translate complex neuroendocrinology for non-specialist audiences — across this site, published work, and science communication practice</li>
+        </ul>
+
+        <p>The roles this work is most directly relevant to: <strong>Product Manager</strong>, <strong>Innovation Manager</strong>, and <strong>Therapeutic Program Manager</strong> in digital health, femtech, medtech, or life sciences.</p>
+
+        <div style="margin-top: 28px; display: flex; gap: 16px; flex-wrap: wrap;">
+          <a href="[PLACEHOLDER — LinkedIn URL]" target="_blank" class="btn btn-primary">Connect on LinkedIn</a>
+          <a href="mailto:[PLACEHOLDER — email]" class="btn btn-outline">Get in touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div><div class="footer-logo">Rhythm.</div><p class="footer-tagline">Your cycle. Your brain. Your interventions.</p></div>
+        <div class="footer-links">
+          <a onclick="showPage('home')" style="cursor:pointer;">Home</a>
+          <a onclick="showPage('science')" style="cursor:pointer;">The Science</a>
+          <a onclick="showPage('app')" style="cursor:pointer;">The App</a>
+        </div>
+        <p class="built-on-evidence">Built on evidence</p>
+      </div>
+      <div class="footer-bottom"><p>© 2025 Rhythm. A portfolio project in evidence-based digital health.</p></div>
+    </div>
+  </footer>
+
+</div><!-- /page-about -->
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- ARTICLE DATA & JAVASCRIPT -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<script>
+// ─── Pregnancy expand toggle ───
+function togglePregnancyExpand() {
+  const el = document.getElementById('preg-expanded');
+  const btn = document.getElementById('preg-expand-btn');
+  if (!el) return;
+  const isOpen = el.style.display !== 'none';
+  el.style.display = isOpen ? 'none' : 'block';
+  btn.textContent = isOpen ? 'Conception & pregnancy ↓' : 'Conception & pregnancy ↑';
+}
+
+// ─── Article data ───
+const articles = [
+  {
+    tag: "Neuroscience · Foundational",
+    title: "Why Your Brain Changes Across Your Cycle",
+    readTime: "~12 min read",
+    date: "[PLACEHOLDER — Publication date]",
+    content: `
+      <div class="content-note">
+        <strong>To the founder:</strong> This is a structured outline for you to write the full article. Each H2 is a section header. Bullet points are key content notes per section. Citation placeholders are marked [REF]. The outline is intentionally detailed enough to guide writing, not so detailed as to constrain it.
+      </div>
+
+      <h2>Overview: The Brain Is Not Hormonally Inert</h2>
+      <p>Introduce the core premise: estrogen, progesterone, and their metabolites are neuroactive steroids — they cross the blood-brain barrier and directly modulate neurotransmitter systems, synaptic plasticity, and neural network dynamics.</p>
+      <ul>
+        <li>Key systems affected: GABAergic, serotonergic, dopaminergic, noradrenergic</li>
+        <li>Allopregnanolone (progesterone metabolite) as a potent GABA-A positive allosteric modulator <span class="ref-placeholder">REF</span></li>
+        <li>Estradiol's role in BDNF upregulation and hippocampal synaptic density <span class="ref-placeholder">REF</span></li>
+        <li>Frame: this is not "hormones making you emotional" — this is neuroendocrinology</li>
+      </ul>
+
+      <h2>The Four Phases: A Neuropsychological Map</h2>
+      <p>Walk through each phase with a focus on the neuropsychological signature, not just the hormonal profile. Be clear about what is group-level data and what varies individually.</p>
+      <ul>
+        <li><strong>Menstrual phase:</strong> Estrogen and progesterone at nadir. Some evidence for increased pain sensitivity, reduced cognitive load tolerance. Individual variation high. <span class="ref-placeholder">REF</span></li>
+        <li><strong>Follicular phase:</strong> Rising estradiol. Strongest evidence for verbal memory enhancement, increased cognitive flexibility, motivation. BDNF peaks near ovulation. <span class="ref-placeholder">REF</span></li>
+        <li><strong>Ovulatory phase:</strong> LH surge, estrogen peak. Some evidence for improved social cognition, increased risk tolerance (contested). Short window. <span class="ref-placeholder">REF</span></li>
+        <li><strong>Luteal phase:</strong> Rising progesterone. Allopregnanolone effects on anxiety threshold. PMS/PMDD cluster here. Also: progesterone's thermogenic and sleep-disrupting effects. <span class="ref-placeholder">REF</span></li>
+      </ul>
+
+      <h2>Cognition: What the Research Actually Shows</h2>
+      <ul>
+        <li>Verbal memory: most consistent finding — follicular advantage, replicated across multiple studies <span class="ref-placeholder">REF</span></li>
+        <li>Spatial cognition: some evidence for luteal advantage (contested, effect size small) <span class="ref-placeholder">REF</span></li>
+        <li>Attentional control: mixed findings, task-dependent <span class="ref-placeholder">REF</span></li>
+        <li>Effort perception: original research (this thesis) — key point for Rhythm's differentiation</li>
+        <li>Important caveat: most studies use small samples, lack ecological validity, and test narrow cognitive domains</li>
+      </ul>
+
+      <h2>Mood and Affect: Beyond PMS</h2>
+      <ul>
+        <li>Distinguish PMS (common, subclinical) from PMDD (clinical, DSM-5) from normal cycle-related mood variation</li>
+        <li>Role of allopregnanolone withdrawal in PMDD — paradoxical GABA response as one proposed mechanism <span class="ref-placeholder">REF</span></li>
+        <li>Serotonin system sensitivity and its interaction with estrogen fluctuation <span class="ref-placeholder">REF</span></li>
+        <li>Affect regulation capacity may vary across phases — implications for CBT and ACT timing</li>
+      </ul>
+
+      <h2>What This Means for Intervention</h2>
+      <ul>
+        <li>Phase context is a neuropsychological backdrop, not a prescription</li>
+        <li>Certain interventions may be more accessible or effective in certain phases — but this is probabilistic, not deterministic</li>
+        <li>The argument for personalizing behavioral interventions by phase: if the neural substrate changes, so should the intervention</li>
+        <li>Rhythm's approach: phase as one layer of a multi-layer personalization model</li>
+      </ul>
+    `,
+    refs: [
+      "[REF 1 — e.g., Bäckström et al. (2014). Allopregnanolone and mood disorders. Hormones and Behavior.]",
+      "[REF 2 — e.g., Hampson & Kimura (1988). Reciprocal effects of hormonal fluctuations on human motor and perceptual-spatial skills. Behavioral Neuroscience.]",
+      "[REF 3 — e.g., Sohrabji & Lewis (2006). Estrogen-BDNF interactions: implications for neurodegenerative diseases. Frontiers in Neuroendocrinology.]"
+    ]
+  },
+  {
+    tag: "Individual Variation · Core Thesis",
+    title: "Individual Variation: Why You Are Not Your Phase",
+    readTime: "~10 min read",
+    date: "[PLACEHOLDER]",
+    content: `
+      <div class="content-note">Structured outline — write the full article. This is Rhythm's core intellectual premise and probably its most important piece of scientific communication.</div>
+
+      <h2>The Paradox at the Heart of Cycle Science</h2>
+      <ul>
+        <li>Group-level effects are real: follicular verbal memory advantage, luteal mood disruption clusters — these findings replicate</li>
+        <li>But within-person variation across cycles is often as large as between-phase variation <span class="ref-placeholder">REF</span></li>
+        <li>Between-person variation is even larger: what one woman experiences in her luteal phase may be entirely different from another's</li>
+        <li>This is not a reason to dismiss cycle science — it is a reason to use it correctly</li>
+      </ul>
+
+      <h2>The Statistics of Individual Variation</h2>
+      <ul>
+        <li>Brief accessible explanation of within-person vs. between-person variation (no jargon)</li>
+        <li>Ecological momentary assessment (EMA) as the methodological gold standard for capturing real variation <span class="ref-placeholder">REF</span></li>
+        <li>Why lab studies underestimate individual variation (controlled conditions, brief tasks, volunteer bias)</li>
+        <li>The idiographic vs. nomothetic distinction in psychology — relevant here</li>
+      </ul>
+
+      <h2>What Drives Between-Person Variation?</h2>
+      <ul>
+        <li>Hormonal profile differences: cycle length, peak estrogen levels, progesterone sensitivity vary widely <span class="ref-placeholder">REF</span></li>
+        <li>Psychological traits: anxiety sensitivity, emotion regulation style, rumination tendency are strong moderators of how cycle changes translate into subjective experience</li>
+        <li>Lifestyle factors: sleep quality, exercise, chronic stress, diet — all interact with hormonal effects on the brain</li>
+        <li>Prior experience with mental health interventions — shapes baseline neuroplasticity</li>
+        <li>Comorbidities: PCOS, endometriosis, thyroid dysfunction alter the hormonal context significantly</li>
+      </ul>
+
+      <h2>The Rhythm Solution: Personalization at Two Levels</h2>
+      <ul>
+        <li>Phase gives context — not prescription</li>
+        <li>Daily check-in captures your actual state — overrides phase defaults</li>
+        <li>Trait profile establishes your stable neuropsychological baseline</li>
+        <li>The logic: the intervention most likely to help you today is the one that fits who you actually are right now — not who the average woman in your phase is</li>
+      </ul>
+
+      <h2>A Note on the Research</h2>
+      <ul>
+        <li>The original EMA research underpinning Rhythm directly addresses this question</li>
+        <li>Brief description of the study design (EMA, naturalistic, menstrual cycle focus, psychophysiological measures)</li>
+        <li>Key finding placeholder: [PLACEHOLDER — thesis finding on within-person variation in effort perception]</li>
+      </ul>
+    `,
+    refs: [
+      "[REF 1 — e.g., Boivin et al. (2003). Emotional distress in infertile women... Journal of Psychosomatic Obstetrics & Gynecology.]",
+      "[REF 2 — e.g., Shiffman, Stone & Hufford (2008). Ecological momentary assessment. Annual Review of Clinical Psychology.]",
+      "[REF 3 — Placeholder for thesis citation when published]"
+    ]
+  },
+  {
+    tag: "Clinical · Comorbidities",
+    title: "PCOS, Endometriosis, and the Brain",
+    readTime: "~14 min read",
+    date: "[PLACEHOLDER]",
+    content: `
+      <div class="content-note">Structured outline — write the full article. This is an important article for the clinical audience and for women who have been diagnosed with either condition.</div>
+
+      <h2>Beyond the Gynecology Clinic</h2>
+      <ul>
+        <li>PCOS and endometriosis are commonly understood as reproductive or hormonal conditions — but both involve significant neuropsychological comorbidity</li>
+        <li>The brain-reproductive axis is bidirectional: the brain regulates reproduction, and reproductive hormones regulate the brain</li>
+        <li>Introduce the HPA–HPG axis interaction as the conceptual framework <span class="ref-placeholder">REF</span></li>
+      </ul>
+
+      <h2>PCOS: Neurology and Psychology</h2>
+      <ul>
+        <li>Androgen excess and its neural effects: altered dopamine and serotonin systems <span class="ref-placeholder">REF</span></li>
+        <li>Elevated rates of anxiety and depression in PCOS — not fully explained by psychosocial factors <span class="ref-placeholder">REF</span></li>
+        <li>Insulin resistance and cognitive function: emerging evidence on glucose regulation and working memory</li>
+        <li>Sleep disruption in PCOS (elevated androgens → sleep apnea risk) and downstream cognitive effects</li>
+        <li>Implications for intervention: what works, what the evidence supports</li>
+      </ul>
+
+      <h2>Endometriosis: Chronic Pain and the Brain</h2>
+      <ul>
+        <li>Central sensitization in endometriosis: altered pain processing beyond the periphery <span class="ref-placeholder">REF</span></li>
+        <li>HPA axis dysregulation: chronic pain as a stressor, cortisol dysregulation, immune effects</li>
+        <li>Cognitive and mood comorbidities: "endo brain", concentration difficulties, anxiety and depression prevalence <span class="ref-placeholder">REF</span></li>
+        <li>The diagnostic delay problem: average 7–10 year delay — psychological burden of undiagnosed pain</li>
+        <li>What mind-body interventions have evidence for pain-related psychological comorbidity</li>
+      </ul>
+
+      <h2>Shared Mechanisms: HPA Axis Involvement</h2>
+      <ul>
+        <li>Both conditions involve some degree of HPA axis dysregulation</li>
+        <li>Cortisol, inflammation, and reproductive hormone disruption as a shared pathway</li>
+        <li>Implication for Rhythm: women with these diagnoses may have different baseline neuropsychological profiles and require adapted intervention strategies</li>
+      </ul>
+
+      <h2>What Rhythm Does Differently for Complex Cases</h2>
+      <ul>
+        <li>Screening question at onboarding: PCOS/endo diagnosis and symptom burden</li>
+        <li>Adjusted phase interpretation: irregular cycles, anovulation, hormonal treatments — how Rhythm handles atypical cycle patterns</li>
+        <li>Pain-aware intervention selection: movement recommendations calibrated for chronic pain context</li>
+      </ul>
+    `,
+    refs: [
+      "[REF 1 — e.g., Balen et al. (2016). PCOS — a complex condition. Human Reproduction Update.]",
+      "[REF 2 — e.g., Missmer & Cramer (2003). The epidemiology of endometriosis. Obstetrics and Gynecology Clinics of North America.]",
+      "[REF 3 — e.g., Simoens et al. (2012). The burden of endometriosis: costs and quality of life. Human Reproduction.]"
+    ]
+  },
+  {
+    tag: "Stress · Fertility · HPA Axis",
+    title: "Fertility, Stress, and the HPA Axis",
+    readTime: "~13 min read",
+    date: "[PLACEHOLDER]",
+    content: `
+      <div class="content-note">Structured outline. This article is relevant both to women trying to conceive and to those seeking to understand HPA–HPG axis interactions in their daily cycle experience.</div>
+
+      <h2>The Biology of Stress-Induced Cycle Disruption</h2>
+      <ul>
+        <li>The HPA–HPG axis: how the stress response suppresses reproductive function <span class="ref-placeholder">REF</span></li>
+        <li>CRH → ACTH → cortisol cascade and its downstream effects on GnRH pulsatility</li>
+        <li>Why chronic (not acute) stress is the relevant variable: adaptation, allostatic load</li>
+        <li>Subclinical cycle changes: luteal phase shortening, anovulation, cycle length variability as early signals</li>
+      </ul>
+
+      <h2>What Psychological Stress Actually Does to the Cycle</h2>
+      <ul>
+        <li>Review of EMA and biomarker studies on psychological stress and cycle parameters <span class="ref-placeholder">REF</span></li>
+        <li>Distinguish: perceived stress, cortisol output, autonomic nervous system tone</li>
+        <li>The confound problem: stress may also alter health behaviors that affect cycles (sleep, exercise, nutrition)</li>
+        <li>What we know and what remains contested — intellectual honesty here is important</li>
+      </ul>
+
+      <h2>Mind-Body Interventions: The Domar Program and Beyond</h2>
+      <ul>
+        <li>Alice Domar's Mind/Body Program for Infertility: structure, components, and key findings <span class="ref-placeholder">REF</span></li>
+        <li>Evidence for mindfulness-based interventions in fertility contexts: psychological outcomes (anxiety, depression) vs. biological outcomes (pregnancy rates) — distinguish carefully</li>
+        <li>HRV biofeedback and autonomic regulation: emerging evidence</li>
+        <li>The Serenity trial and similar RCTs: what they actually showed</li>
+        <li>Important caveat: psychological intervention is not a fertility treatment — the evidence for psychological → biological effects is weak; evidence for psychological → psychological outcomes is stronger</li>
+      </ul>
+
+      <h2>What Rhythm Offers Women Navigating Fertility Stress</h2>
+      <ul>
+        <li>HPA-aware intervention recommendations during the follicular and luteal phases</li>
+        <li>Breathwork for HRV and vagal tone — the autonomic pathway</li>
+        <li>ACT-based approaches for reducing psychological inflexibility around fertility outcomes</li>
+        <li>Journaling prompts informed by narrative therapy for processing uncertainty</li>
+        <li>What Rhythm explicitly does not do: make fertility claims</li>
+      </ul>
+    `,
+    refs: [
+      "[REF 1 — e.g., Chrousos et al. (1998). The hypothalamic-pituitary-adrenal axis. NEJM.]",
+      "[REF 2 — e.g., Domar et al. (1990). The psychological impact of infertility: a comparison with patients with other medical conditions. Journal of Psychosomatic Obstetrics.]",
+      "[REF 3 — e.g., Boivin et al. (2011). Psychological interventions for infertile patients. Psychosomatic Medicine.]"
+    ]
+  },
+  {
+    tag: "Perimenopause · Cognition",
+    title: "Perimenopause, Menopause, and Cognitive Change",
+    readTime: "~15 min read",
+    date: "[PLACEHOLDER]",
+    content: `
+      <div class="content-note">Structured outline. This is a high-stakes article — it addresses a topic where misinformation is rampant and where the evidence is more nuanced than either "HRT cures brain fog" or "it's just in your head."</div>
+
+      <h2>The Menopausal Transition: A Neurological Event</h2>
+      <ul>
+        <li>Reframe menopause as a neurological transition, not just a reproductive one — estrogen receptors are ubiquitous in the brain</li>
+        <li>The perimenopause window: years of hormonal fluctuation before the final period; this is when most symptoms peak</li>
+        <li>Key brain regions affected: hippocampus, prefrontal cortex, default mode network <span class="ref-placeholder">REF</span></li>
+        <li>The "estrogen window" or "critical window" hypothesis — timing of HRT effects on neuroprotection <span class="ref-placeholder">REF</span></li>
+      </ul>
+
+      <h2>What Actually Happens to Cognition</h2>
+      <ul>
+        <li>Verbal memory: the most consistent finding — objective declines during perimenopause that tend to improve post-menopause <span class="ref-placeholder">REF</span></li>
+        <li>"Brain fog" as a subjective symptom: the subjective-objective gap — women often perceive more cognitive decline than objective tests show</li>
+        <li>Attention and processing speed: mixed findings</li>
+        <li>The confound problem: sleep disruption (vasomotor symptoms → fragmented sleep) as a major driver of cognitive symptoms</li>
+        <li>Depression as a risk factor: first-lifetime depression risk is elevated during perimenopause</li>
+        <li>What we know about structural brain changes: white matter microstructure, PSMD, hippocampal volume (reference relevant literature)</li>
+      </ul>
+
+      <h2>The HRT Debate: What the Evidence Actually Says</h2>
+      <ul>
+        <li>WHI fallout and its legacy — why this study scared a generation of clinicians away from HRT</li>
+        <li>KEEPS, SWAN, and more recent trials: more nuanced picture <span class="ref-placeholder">REF</span></li>
+        <li>What HRT probably does and doesn't do for cognition — honest assessment</li>
+        <li>The critical window hypothesis: HRT timing, not HRT per se, as the key variable</li>
+      </ul>
+
+      <h2>What Helps: Behavioral and Lifestyle Evidence</h2>
+      <ul>
+        <li>Aerobic exercise: most consistent evidence for cognitive protection, mechanism likely via BDNF <span class="ref-placeholder">REF</span></li>
+        <li>Sleep hygiene: treating vasomotor symptoms and sleep disruption as first-order interventions</li>
+        <li>Cognitive engagement and social connection: the FINGER trial and similar lifestyle interventions</li>
+        <li>CBT for menopausal symptoms: the Hunter lab work — strong evidence for CBT addressing hot flushes and mood <span class="ref-placeholder">REF</span></li>
+        <li>Rhythm's role: behavioral support layer for women navigating the transition</li>
+      </ul>
+    `,
+    refs: [
+      "[REF 1 — e.g., Mosconi et al. (2021). Menopause impacts human brain structure, connectivity... Scientific Reports.]",
+      "[REF 2 — e.g., Henderson et al. (2019). The critical window hypothesis of hormone therapy... Climacteric.]",
+      "[REF 3 — e.g., Hunter et al. (2011). Cognitive behavior therapy for menopausal symptoms. Maturitas.]"
+    ]
+  },
+  {
+    tag: "Sleep · Autonomic · HRV",
+    title: "HRV, Sleep Architecture, and Your Cycle",
+    readTime: "~11 min read",
+    date: "[PLACEHOLDER]",
+    content: `
+      <div class="content-note">Structured outline. This article is particularly relevant to the wearable/biometric audience and directly connects to Rhythm's psychophysiology research foundations.</div>
+
+      <h2>The Cycle as a Physiological Rhythm</h2>
+      <ul>
+        <li>Introduce the concept: your menstrual cycle is a physiological rhythm that interacts with your circadian rhythm and autonomic nervous system</li>
+        <li>Brief primer on HRV as an index of autonomic nervous system flexibility — neither heart rate nor variability alone, but the ratio</li>
+        <li>Why HRV matters for psychological health: vagal tone, emotion regulation, stress resilience</li>
+      </ul>
+
+      <h2>HRV Across the Menstrual Cycle</h2>
+      <ul>
+        <li>Follicular phase: higher parasympathetic tone in many studies; lower resting heart rate near ovulation <span class="ref-placeholder">REF</span></li>
+        <li>Luteal phase: progesterone increases sympathetic tone and resting heart rate; HRV often decreases <span class="ref-placeholder">REF</span></li>
+        <li>Individual variation is high — some women show opposite patterns</li>
+        <li>Implications for exercise recovery and perceived effort (directly relevant to thesis research)</li>
+        <li>How Rhythm uses HRV context: adjusting intervention type (activation vs. calming) based on phase-typical autonomic state</li>
+      </ul>
+
+      <h2>Sleep Architecture and the Cycle</h2>
+      <ul>
+        <li>Progesterone as a thermogen: core body temperature rise in luteal phase and its effect on sleep onset and quality <span class="ref-placeholder">REF</span></li>
+        <li>REM sleep changes across phases: some evidence for altered REM in the luteal phase, particularly premenstrual</li>
+        <li>Vasomotor symptoms in the perimenopausal transition as a major disruptor of sleep architecture</li>
+        <li>The sleep–mood feedback loop: poor sleep in the luteal phase → amplified premenstrual mood symptoms → more sleep disruption</li>
+      </ul>
+
+      <h2>Wearables and Cycle Science</h2>
+      <ul>
+        <li>Current state: Oura, Garmin, Apple Watch — what cycle-related data they capture and what they don't</li>
+        <li>The gap: wearables measure physiological signals but don't translate them into neuropsychologically-informed behavioral interventions</li>
+        <li>Rhythm's potential integration: HRV and sleep data as additional personalization inputs</li>
+        <li>What good wearable data integration for this use case would look like</li>
+      </ul>
+
+      <h2>Practical Sleep Hygiene Recommendations by Phase</h2>
+      <ul>
+        <li>Follicular: standard sleep hygiene sufficient for most</li>
+        <li>Luteal: temperature management (cool bedroom, cooling mattress pads), earlier sleep onset, reduced caffeine, evening breathwork for HRV</li>
+        <li>Perimenstrual: pain management, magnesium (some evidence), CBT-I principles for anxiety-driven insomnia</li>
+      </ul>
+    `,
+    refs: [
+      "[REF 1 — e.g., Sato et al. (2016). Menstrual cycle phase effects on autonomic nervous system activity. Journal of Physiological Anthropology.]",
+      "[REF 2 — e.g., Baker & Driver (2007). Circadian rhythms, sleep, and the menstrual cycle. Sleep Medicine.]",
+      "[REF 3 — Placeholder for thesis HRV citations]"
+    ]
+  },
+  {
+    tag: "Behavioral Science · Design",
+    title: "Environmental Optimization: Designing Your Life Around Your Neuropsychology",
+    readTime: "~10 min read",
+    date: "[PLACEHOLDER]",
+    content: `
+      <div class="content-note">Structured outline. This article bridges neuroscience and behavioral science — it's the most "actionable" piece and likely to resonate most broadly. Avoid productivity-hack tone; keep it rigorous and specific.</div>
+
+      <h2>The Gap Between Knowledge and Action</h2>
+      <ul>
+        <li>The insight–behavior gap: knowing what's good for you is not sufficient for doing it</li>
+        <li>Why willpower is not the relevant variable — the behavioral science case against self-discipline as the solution</li>
+        <li>Introduce the environmental design framework: changing the context, not the person <span class="ref-placeholder">REF</span></li>
+      </ul>
+
+      <h2>Implementation Intentions: If-Then Planning</h2>
+      <ul>
+        <li>Gollwitzer's implementation intentions research: substantial effect sizes for behavior change across domains <span class="ref-placeholder">REF</span></li>
+        <li>The mechanism: pre-commitment to specific situational triggers bypasses motivational deliberation</li>
+        <li>Practical example: "If it's Tuesday evening in my luteal phase and I feel low energy, then I will do 10 minutes of box breathing before checking my phone"</li>
+        <li>How Rhythm generates phase-aware implementation intentions as part of the intervention plan</li>
+      </ul>
+
+      <h2>Habit Stacking and Neuropsychological Context</h2>
+      <ul>
+        <li>Habit stacking (Clear, Fogg) as a behavioral architecture tool — anchoring new behaviors to existing ones</li>
+        <li>The phase-aware adaptation: stacking is easiest in the follicular phase when motivation and dopamine are relatively elevated; maintenance-focused in luteal</li>
+        <li>Practical example: stack journaling onto an existing morning routine; stack breathwork onto evening teeth-brushing</li>
+      </ul>
+
+      <h2>Environmental Design: Reducing Friction, Not Adding Motivation</h2>
+      <ul>
+        <li>The gym clothes principle: laying out workout clothes reduces the activation energy for exercise — this is not a metaphor, it is behavioral science <span class="ref-placeholder">REF</span></li>
+        <li>Default redesign: making the healthy option the path of least resistance</li>
+        <li>Digital environment design: notification timing, app placement, evening device cutoffs aligned with circadian and cycle rhythms</li>
+        <li>Social environment: telling one person your implementation intention doubles follow-through rate</li>
+      </ul>
+
+      <h2>Rhythm's Environmental Optimization Features</h2>
+      <ul>
+        <li>Phase-aware reminders: nudge timing calibrated to phase-typical energy and compliance patterns</li>
+        <li>Implementation intention generator: Rhythm creates if-then plans from your check-in data and trait profile</li>
+        <li>Weekly environment audit: a prompt to review your physical and digital environment for friction points</li>
+        <li>The key principle: Rhythm is a scaffold, not a crutch — the goal is building phase-aware self-regulation, not app dependency</li>
+      </ul>
+    `,
+    refs: [
+      "[REF 1 — e.g., Thaler & Sunstein (2008). Nudge: Improving Decisions About Health, Wealth, and Happiness.]",
+      "[REF 2 — e.g., Gollwitzer (1999). Implementation intentions: Strong effects of simple plans. American Psychologist.]",
+      "[REF 3 — e.g., Fogg (2019). Tiny Habits: The Small Changes That Change Everything.]"
+    ]
+  },
+  {
+    tag: "Interventions · Evidence Review",
+    title: "The Evidence for Breathwork, Meditation, and CBT in Women's Mental Health",
+    readTime: "~16 min read",
+    date: "[PLACEHOLDER]",
+    content: `
+      <div class="content-note">Structured outline. This is the most technically demanding article and the most important for establishing Rhythm's clinical credibility. Be precise about effect sizes, study populations, and limitations. Do not overclaim.</div>
+
+      <h2>How to Read an Intervention Evidence Base</h2>
+      <ul>
+        <li>Brief primer: RCTs, meta-analyses, systematic reviews — why hierarchy of evidence matters</li>
+        <li>The problems specific to this space: small samples, self-selected participants, poor control conditions (waitlist vs. active control), publication bias</li>
+        <li>How Rhythm selects interventions: evidence quality threshold, specificity to women's mental health where available, feasibility for daily delivery</li>
+      </ul>
+
+      <h2>Breathwork and Respiratory-Paced Breathing</h2>
+      <ul>
+        <li>Mechanism: slow breathing (4.5–6 breaths/min) directly increases HRV via vagal afferent stimulation — this is well-established physiology <span class="ref-placeholder">REF</span></li>
+        <li>Acute anxiety reduction: multiple small RCTs; effect sizes moderate-to-large for acute state anxiety <span class="ref-placeholder">REF</span></li>
+        <li>PMDD and premenstrual anxiety: limited but promising data</li>
+        <li>What we don't know: optimal dose, whether HRV increases translate to clinical outcomes at scale</li>
+        <li>Rhythm's implementation: 5-minute box breathing or 4-7-8 with phase-aware timing recommendation</li>
+      </ul>
+
+      <h2>Mindfulness Meditation</h2>
+      <ul>
+        <li>MBSR and MBCT: the strongest evidence base in clinical psychology for anxiety and depression prevention <span class="ref-placeholder">REF</span></li>
+        <li>Effect sizes: meta-analyses show moderate effects (d ~0.5) for anxiety, d ~0.65 for depression — comparable to antidepressants for mild-moderate presentations</li>
+        <li>Mechanism: decentering, reduced amygdala reactivity, altered default mode network activity</li>
+        <li>Women-specific data: good evidence for menopausal hot flush frequency and mood <span class="ref-placeholder">REF</span></li>
+        <li>PMDD: mindfulness vs. fluoxetine comparison trials — evidence is emerging</li>
+        <li>Limitation: 8-week MBSR programs are not the same as 5-minute app-based meditations — Rhythm should be honest about this gap</li>
+      </ul>
+
+      <h2>CBT: The Gold Standard</h2>
+      <ul>
+        <li>CBT has the largest and most rigorous evidence base of any psychological intervention for anxiety and depression <span class="ref-placeholder">REF</span></li>
+        <li>CBT for PMS/PMDD: structured studies showing symptom reduction for mood, not physical, symptoms</li>
+        <li>CBT for menopausal symptoms: Hunter lab — strong evidence specifically for hot flushes and mood <span class="ref-placeholder">REF</span></li>
+        <li>Digital CBT (dCBT): evidence emerging; Beating the Blues, Woebot — modest effects, strong accessibility advantage</li>
+        <li>What Rhythm delivers: CBT-informed cognitive restructuring exercises and behavioral activation prompts — not therapy</li>
+      </ul>
+
+      <h2>ACT: Acceptance and Commitment Therapy</h2>
+      <ul>
+        <li>ACT theory: psychological flexibility as the target, not symptom reduction <span class="ref-placeholder">REF</span></li>
+        <li>Evidence: comparable to CBT in meta-analyses, particularly for chronic pain and anxiety</li>
+        <li>Relevance for cycle-related distress: defusing from "I always feel terrible in my luteal phase" as a fused belief; committed action toward values despite fluctuating mood</li>
+        <li>Rhythm's implementation: values clarification exercises and defusion prompts calibrated to luteal phase context</li>
+      </ul>
+
+      <h2>Movement and Exercise</h2>
+      <ul>
+        <li>Aerobic exercise: most consistent effect sizes in the intervention literature — d ~0.6 for depression, anxiolytic effects well-replicated <span class="ref-placeholder">REF</span></li>
+        <li>Mechanism: BDNF upregulation, HPA axis regulation, serotonin and dopamine effects</li>
+        <li>Dose: moderate-intensity, 150 min/week — lower doses have meaningful effects</li>
+        <li>Phase-specific exercise: follicular for high-intensity (estrogen supports glycogen utilization, pain threshold higher); luteal for lower-intensity and recovery-focused</li>
+      </ul>
+
+      <h2>A Note on What Rhythm Is and Is Not</h2>
+      <ul>
+        <li>Rhythm delivers evidence-informed behavioral interventions — it is not a clinical treatment</li>
+        <li>It is explicitly not a replacement for therapy, psychiatry, or medical care</li>
+        <li>The appropriate positioning: a daily behavioral support layer for women who are psychologically healthy and want to optimize, or who are managing subclinical symptoms and want structured self-help</li>
+        <li>Referral pathway: Rhythm includes explicit signposting to clinical resources when check-in data suggests clinical-level distress</li>
+      </ul>
+    `,
+    refs: [
+      "[REF 1 — e.g., Lehrer & Gevirtz (2014). Heart rate variability biofeedback: how and why does it work? Frontiers in Psychology.]",
+      "[REF 2 — e.g., Hofmann et al. (2012). The efficacy of cognitive behavioral therapy: a review of meta-analyses. Cognitive Therapy and Research.]",
+      "[REF 3 — e.g., Hayes et al. (2006). Acceptance and commitment therapy. Behaviour Research and Therapy.]",
+      "[REF 4 — e.g., Kvam et al. (2016). Exercise as a treatment for depression: a meta-analysis. Journal of Affective Disorders.]"
+    ]
+  },
+  {
+    tag: "Postpartum · Perinatal · Fourth Trimester",
+    title: "The Fourth Trimester Brain: Pregnancy, Postpartum, and the Return of Your Cycle",
+    readTime: "~14 min read",
+    date: "[PLACEHOLDER]",
+    content: `
+      <div class="content-note"><strong>To the founder:</strong> This is a structured outline. Write the full article from here. The sections move from the neurobiology of pregnancy itself → the postpartum hormonal withdrawal → cycle return → what Rhythm does. Be explicit about what the research does and doesn't yet show. Clinical signposting to perinatal mental health resources should appear in the "Postpartum Mood" section — links included as placeholders.</div>
+
+      <h2>The Pregnant Brain Is Not on Pause</h2>
+      <p>Challenge the common framing of "pregnancy brain" as cognitive deficit. Introduce the neuroplasticity framing: pregnancy is a period of active, adaptive brain remodelling — not degradation.</p>
+      <ul>
+        <li>Overview of structural neuroplasticity during pregnancy: grey matter volume changes documented by MRI <span class="ref-placeholder">REF — Hoekzema et al., 2017, Nature Neuroscience</span></li>
+        <li>Which regions change: areas associated with social cognition, theory of mind, self-referential processing — not regions associated with general intelligence or memory</li>
+        <li>These changes persist for at least two years postpartum and predict maternal attachment quality — this is adaptation, not loss <span class="ref-placeholder">REF — Carmona et al., 2019</span></li>
+        <li>The "matrescence" concept (Dana Raphael, Aurelie Athan): the psychological and neurobiological identity transformation of becoming a mother — an undertheorised parallel to adolescence</li>
+        <li>Important caveat: most neuroimaging studies in pregnancy are small, lack longitudinal controls, and are conducted in high-income countries — caution about overgeneralisation</li>
+      </ul>
+
+      <h2>The Hormonal Arc of Pregnancy: Trimester by Trimester</h2>
+      <ul>
+        <li><strong>First trimester:</strong> hCG peaks, progesterone rises steeply (initially from corpus luteum, then placenta). Fatigue, nausea, emotional sensitivity. GABAergic tone altered by neurosteroids. Processing speed and verbal memory may be measurably reduced — "pregnancy brain" is real, if modest in magnitude <span class="ref-placeholder">REF</span></li>
+        <li><strong>Second trimester:</strong> Estrogen and progesterone continue rising but more gradually. Relative stabilisation for many women. The brain is adjusting to a new hormonal set point, not in acute flux</li>
+        <li><strong>Third trimester:</strong> Progesterone dominance. Sleep disruption becomes near-universal — partly mechanical, partly neurosteroid-mediated. Oxytocin system upregulation begins. Emotional processing shifts toward threat detection and infant-relevant stimuli <span class="ref-placeholder">REF</span></li>
+        <li>Across all trimesters: allopregnanolone (progesterone metabolite) at concentrations orders of magnitude above the menstrual cycle — this is relevant to the subset of women with PMDD, whose paradoxical GABA sensitivity means pregnancy neurosteroid levels can paradoxically worsen mood <span class="ref-placeholder">REF</span></li>
+      </ul>
+
+      <h2>The Postpartum Hormonal Withdrawal</h2>
+      <p>This is the neurobiological core of the fourth trimester and the primary risk window for postpartum mood disorders. It needs to be explained precisely — not catastrophised, but not minimised.</p>
+      <ul>
+        <li>Within 24–48 hours of delivery: estrogen and progesterone fall from pregnancy peaks to below pre-pregnancy baseline — the fastest hormonal decline in the human lifespan <span class="ref-placeholder">REF</span></li>
+        <li>Prolactin simultaneously surges (breastfeeding) or falls (formula feeding) — a divergent pathway that affects cycle return timeline</li>
+        <li>Oxytocin is released during breastfeeding and skin-to-skin contact — relevant to mood, bonding, and anxiety regulation</li>
+        <li>The neurobiological hypothesis for postpartum depression: abrupt withdrawal from pregnancy-level allopregnanolone in women with sensitised GABA-A receptors — brexanolone (a synthetic allopregnanolone analogue) received FDA approval for PPD in 2019, validating this mechanism <span class="ref-placeholder">REF</span></li>
+        <li>What this means practically: in the first two weeks postpartum, mood dysregulation is neurobiologically expected. "Baby blues" (weeping, anxiety, emotional lability) affect up to 80% of women and typically resolve spontaneously. Postpartum depression persists beyond two weeks, worsens, or significantly impairs functioning — this requires clinical attention</li>
+      </ul>
+
+      <h2>Postpartum Mood: Clinical Signposting</h2>
+      <div class="content-note">This section should be written with particular care — it is the place to be clinically honest and to actively direct readers to professional support. Rhythm is not a clinical tool for PPD. This should be stated plainly.</div>
+      <ul>
+        <li>Distinguish: baby blues (normal, transient, neurobiologically expected) vs. postpartum depression (clinical, persistent, requires treatment) vs. postpartum anxiety (often underdiagnosed) vs. postpartum psychosis (rare, psychiatric emergency)</li>
+        <li>Prevalence: PPD affects approximately 1 in 5 new mothers — rates are higher in women with prior depression, PMDD, thyroid dysfunction, or poor social support <span class="ref-placeholder">REF</span></li>
+        <li>Treatment: CBT and antidepressants (particularly SSRIs) have robust evidence for PPD. Brexanolone for severe PPD. Peer support programs show meaningful effects on anxiety and isolation</li>
+        <li>Rhythm's explicit position: if you are experiencing symptoms beyond the first two weeks that are worsening, please seek clinical support. Rhythm is a behavioural support layer — not a substitute for care</li>
+        <li>Resource links: Postpartum Support International (postpartum.net), APNI (UK, apni.org), Perinatal Mental Health Partnership (perinatalmhpartnership.com), Mama Mental Health Initiative (Israel context) <span class="ref-placeholder">[PLACEHOLDER — verify current Israeli perinatal support org URLs]</span></li>
+      </ul>
+
+      <h2>When Your Cycle Returns: What the Research Does (and Doesn't) Say</h2>
+      <p>This is an underresearched area. Be honest about the gaps — but fill in what we do know.</p>
+      <ul>
+        <li>Without breastfeeding: menstruation typically returns 6–8 weeks postpartum, as GnRH pulsatility resumes once prolactin falls</li>
+        <li>With breastfeeding: lactational amenorrhoea (LAM) — prolactin suppresses GnRH, delaying ovulation. Duration is highly variable: median ~6 months with exclusive breastfeeding, but range is weeks to 18+ months <span class="ref-placeholder">REF</span></li>
+        <li>Critical point: ovulation precedes the first postpartum bleed by ~2 weeks. Cycle return ≠ first period — the body becomes fertile before bleeding resumes</li>
+        <li>What we don't know: the neuropsychological correlates of postpartum cycle return are genuinely understudied. We have good data on hormonal profiles; we have much less data on how these translate into subjective experience, mood, cognition, or wellbeing during this specific window</li>
+        <li>What women report (qualitative and survey data): many describe heightened emotional sensitivity, premenstrual-like symptoms that feel more intense than before pregnancy, and a sense that their pre-pregnancy cycle "felt different" — possibly reflecting neuroplasticity, changed hormonal set points, or simply altered psychological context <span class="ref-placeholder">REF — [PLACEHOLDER — relevant qualitative literature]</span></li>
+      </ul>
+
+      <h2>The First Postpartum Cycles: Neuropsychologically Noisy</h2>
+      <ul>
+        <li>First postpartum cycles are frequently anovulatory — the hypothalamic-pituitary-ovarian axis is re-establishing its feedback loop, not yet running at full pre-pregnancy sensitivity</li>
+        <li>Luteal phases may be shorter and progesterone output lower than baseline — this affects sleep, mood, and the neuropsychological profile of the luteal window specifically</li>
+        <li>Cycle length variability is higher than average, typically normalising over 3–6 cycles for most women</li>
+        <li>The estrogen/progesterone ratio in early postpartum cycles may differ from pre-pregnancy — contributing to the subjective experience of "things feeling different"</li>
+        <li>Thyroid function changes postpartum (postpartum thyroiditis affects ~5–10% of women) and thyroid hormones interact with the HPG axis — worth flagging as a differential for persistent mood symptoms</li>
+      </ul>
+
+      <h2>How Rhythm Supports the Postpartum Transition</h2>
+      <ul>
+        <li>Postpartum mode is activated when onboarding indicates a birth within the past 12 months</li>
+        <li>Phase prediction is suspended — the cycle model requires sufficient data to be calibrated, and early postpartum cycles don't yet provide it</li>
+        <li>Daily mood check-in becomes the primary signal: energy, emotional tone, sleep quality, physical recovery, and anxiety level</li>
+        <li>Breastfeeding status is recorded: affects expected cycle return timeline and the degree of hormonal suppression to factor into interpretation</li>
+        <li>Intervention stack for postpartum mode: breathwork for autonomic regulation (particularly relevant given postpartum HPA axis recalibration), sleep hygiene adapted for infant-interrupted sleep, ACT-based approaches for the psychological complexity of identity transition, journaling prompts adapted for matrescence</li>
+        <li>As cycles regularise — typically after 3–6 reported cycles with consistent patterns — Rhythm transitions back to full phase-aware mode</li>
+        <li>The irregularity is normal. It won't last. You'll find your rhythm again.</li>
+      </ul>
+    `,
+    refs: [
+      "[REF 1 — Hoekzema et al. (2017). Pregnancy leads to long-lasting changes in human brain structure. Nature Neuroscience.]",
+      "[REF 2 — Carmona et al. (2019). Pregnancy and adolescence entail similar neuroanatomical adaptations. Human Brain Mapping.]",
+      "[REF 3 — Maguire & Bhagwagar (2019). Allopregnanolone as a treatment for postpartum depression. N Engl J Med (brexanolone trial).]",
+      "[REF 4 — PLACEHOLDER — postpartum cycle return / LAM literature, e.g., Kennedy & Visness (1992) or more recent meta-analyses]",
+      "[REF 5 — PLACEHOLDER — PPD prevalence and treatment literature, e.g., Howard et al. (2014). Non-psychotic mental disorders in the perinatal period. Lancet.]"
+    ]
+  }
+];
+
+// ─── Navigation ───
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('data-page') === page);
+  });
+
+  // If going to science, make sure blog index is showing
+  if (page === 'science') {
+    document.getElementById('blog-index').style.display = 'block';
+    document.getElementById('article-display').style.display = 'none';
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  closeMobile();
+  initFadeIns();
+}
+
+// ─── Blog / Article ───
+function showArticle(index) {
+  const article = articles[index];
+
+  let refsHtml = article.refs.map(r => `<div class="citation-item">${r}</div>`).join('');
+
+  document.getElementById('article-content').innerHTML = `
+    <div class="article-page active">
+      <div class="article-header">
+        <span class="article-tag">${article.tag}</span>
+        <h1>${article.title}</h1>
+        <div class="article-byline">
+          <span>By [PLACEHOLDER — Founder Name]</span>
+          <span>${article.date}</span>
+          <span>${article.readTime}</span>
+        </div>
+      </div>
+      <div class="article-body">
+        ${article.content}
+        <div class="article-citations">
+          <h3>Selected references</h3>
+          ${refsHtml}
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('blog-index').style.display = 'none';
+  document.getElementById('article-display').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function hideArticle() {
+  document.getElementById('blog-index').style.display = 'block';
+  document.getElementById('article-display').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── Mobile menu ───
+function toggleMobile() {
+  const btn = document.getElementById('hamburger');
+  const menu = document.getElementById('mobile-menu');
+  btn.classList.toggle('open');
+  menu.classList.toggle('open');
+}
+
+function closeMobile() {
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+
+// ─── Scroll nav ───
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ─── Fade-in on scroll ───
+function initFadeIns() {
+  document.body.classList.add('js-ready');
+  setTimeout(() => {
+    const els = document.querySelectorAll('.page.active .fade-in:not(.visible)');
+    if (!els.length) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(el => io.observe(el));
+    // Immediately mark anything already in viewport as visible
+    els.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight) el.classList.add('visible');
+    });
+  }, 50);
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+  initFadeIns();
+});
+</script>
+
+</body>
+</html>
